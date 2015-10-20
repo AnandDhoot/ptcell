@@ -1,1 +1,40 @@
-Comapny ID,Coordinator ID,Name,Category
+Comapny ID,Coordinator ID,Name,Category,Password
+Alp100,AE1000,Alphagraphics Printshops,3,7315
+Anc101,AE1002,Anchorage Yamaha,2,4613
+Ang102,AE1009,Angelo International,1,6215
+Art103,AE1013,Artesian Ice & Cold Storage Co,1,2640
+Bil104,AE1016,Biltmore Textile Co Inc,2,1595
+Bla105,AE1020,"Blackley, William J Pa",2,6316
+Bra106,AE1034,"Brandt, Jonathan F Esq",3,6258
+Bue107,AE1088,"Buelt, David L Esq",1,2803
+But108,AE1093,"Butler, Frank B Esq",2,4356
+Com109,CS1006,Community Insurance Agy Inc,3,5357
+Coo110,CS1027,Cooper Myers Y Co,3,4343
+DKL111,CS1028,DKL Downing General Contr Inc,3,7140
+Des112,CS1034,Design Rite Homes Inc,1,4343
+Dia113,CS1051,"Dia Giacomo, Richard F Esq",1,6931
+Eag114,CS1052,Eagle Computer Services Inc,1,4030
+Gat115,CS1103,Gateway Refrigeration,1,2820
+Han116,EE1022,"Hanna, Robert J Esq",3,4560
+Hou117,EE1038,House Of Ing,2,2259
+Ina118,EE1050,"Inabinet, Macre Esq",1,2603
+Kan119,EE1058,Kansas Association Ins Agtts,2,4610
+Lan120,EE1092,Landrum Temporary Services,1,2806
+Mid121,ME1001,Midway Hotel,1,2289
+Mor122,ME1022,Morris Downing & Sherred,3,4505
+Ame123,ME1027,Amer Plast & Chemls Co Inc,2,4879
+Old124,ME1033,Old Cider Mill Grove,3,3959
+Par125,ME1048,Paragon Cable Tv,3,4816
+Pho126,ME1060,Phoenix Phototype,2,7264
+Pre127,ME1072,"Prentiss, Paul F Esq",3,4411
+Pru128,ME1083,Prudential Lighting Corp,1,810
+Pub129,ME1084,Public Works Department,3,3249
+Qua130,PH1006,Quartzite Processing Inc,3,2429
+Sel131,PH1015,"Selsor, Robert J Esq",1,4343
+Sta132,PH1016,State Library,1,6909
+Swa133,PH1019,Swanson Peterson Fnrl Home Inc,2,4066
+Vei134,PH1022,Vei Inc,3,3357
+Vin135,PH1024,Vincent J Petti & Co,3,2083
+Voy136,PH1025,Voyager Travel Service,2,4605
+Woo137,PH1062,"Wood, J Scott Esq",2,4311
+Wyn138,PH1065,Wynns Precision Inc Az Div,2,6532
