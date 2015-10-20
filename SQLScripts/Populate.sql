@@ -1,0 +1,10 @@
+delete from application;
+delete from student;
+delete from jaf;
+delete from company;
+delete from coordinator;
+\copy coordinator from 'coordinatorData.csv' with delimiter ',' csv header;
+\copy company from 'companyData.csv' with delimiter ',' csv header;
+\copy jaf from 'jafData.csv' with delimiter ',' csv header;
+\copy student from 'studentData.csv' with delimiter ',' csv header;
+\copy application from 'applicationData.csv' with delimiter ',' csv header;
