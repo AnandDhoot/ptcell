@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 
 import database.PasswordCheck;
 
@@ -43,6 +44,13 @@ public class AuthFilter implements Filter
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException
 	{
+		String path = ((HttpServletRequest) request).getRequestURI();
+		if(path.equals("/ptcell/JAFDetails"))
+		{
+			chain.doFilter(request, response);
+		}
+		else
+		{
 		// TODO Auto-generated method stub
 		// place your code here
 		String userid = request.getParameter("id");
@@ -89,7 +97,7 @@ public class AuthFilter implements Filter
 				else
 					System.out.println("Invalid User");
 			}
-			else if(userid.length() == 5)
+			else if (userid.length() == 5)
 			{
 				pass = PasswordCheck.getCompanyPassword(userid);
 				if (pass.equals(password))
@@ -105,17 +113,18 @@ public class AuthFilter implements Filter
 			else
 				System.out.println("Invalid User");
 		}
-		
+
 		request.setAttribute("type", type);
 		request.setAttribute("dept", dept);
 		request.setAttribute("cpi", cpi);
-		
+
 		// TODO - Add cases for different landing pages depending on the type
-		if(type.equals("Invalid"))
-			request.getRequestDispatcher("index.html").forward(request, response);
+		if (type.equals("Invalid"))
+			request.getRequestDispatcher("index.html").forward(request,
+					response);
 		else
 			chain.doFilter(request, response);
-			
+		}
 	}
 
 	/**

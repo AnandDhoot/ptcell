@@ -18,7 +18,7 @@ public class JAF
 		{
 			connection = DbUtils.getConnection();
 			PreparedStatement pstmt = connection.prepareStatement(
-					"select name, jafnumber, status "
+					"select name, jafnumber, status, companyID "
 					+ "from application natural join company "
 					+ "where rollnumber=?");
 			pstmt.setString(1, RollNumber);
@@ -28,6 +28,7 @@ public class JAF
 				signedJAFs.add(rs.getString(1));
 				signedJAFs.add(rs.getString(2));
 				signedJAFs.add(rs.getString(3));
+				signedJAFs.add(rs.getString(4));
 			}
 		}
 		catch (SQLException sqle)
@@ -53,7 +54,7 @@ public class JAF
 			connection = DbUtils.getConnection();
 			// TODO - Also check endTime
 			PreparedStatement pstmt = connection.prepareStatement(
-					"select name, category, jafnumber, endTime, profile "
+					"select name, category, jafnumber, endTime, profile, companyid "
 					+ "from jaf natural join company "
 					+ "where (depteligible | ? > 0) and cpicutoff > ? and now() <= endTime");
 			pstmt.setInt(1, num);
@@ -66,6 +67,7 @@ public class JAF
 				openJAFs.add(rs.getString(3));
 				openJAFs.add(rs.getString(4));
 				openJAFs.add(rs.getString(5));
+				openJAFs.add(rs.getString(6));
 			}
 		}
 		catch (SQLException sqle)
@@ -88,7 +90,7 @@ public class JAF
 			PreparedStatement pstmt = connection.prepareStatement(
 					"select * from jaf where companyID=? and jafnumber=?");
 			pstmt.setString(1, companyID);
-			pstmt.setInt(1, jafNumber);
+			pstmt.setInt(2, jafNumber);
 			ResultSet rs = pstmt.executeQuery();
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int columnCount = rsmd.getColumnCount();
