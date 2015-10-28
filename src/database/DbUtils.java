@@ -12,7 +12,8 @@ public class DbUtils
 	static String dbName = "testdb";
 	static String dbUser = "root";
 	static String dbPass = "root";
-	static String[] depts = {"AE", "CS", "EE", "ME", "PH"};
+	static String[] depts = { "AE", "CS", "EE", "ME", "PH" };
+
 	static Connection getConnection()
 	{
 		String dbURL = "jdbc:postgresql://" + dbIP + "/" + dbName;
@@ -32,6 +33,7 @@ public class DbUtils
 		}
 		return connection;
 	}
+
 	static void closeConnection(Connection connection)
 	{
 		try
@@ -43,12 +45,12 @@ public class DbUtils
 			System.out.println("Error in close database connetcion");
 		}
 	}
-	
+
 	// TODO - Improve this to binary search.
 	static int getPosition(String dept)
 	{
-		for(int i=0; i<depts.length; i++)
-			if(dept.equals(depts[i]))
+		for (int i = 0; i < depts.length; i++)
+			if (dept.equals(depts[i]))
 				return i;
 		return 0;
 	}
@@ -56,21 +58,31 @@ public class DbUtils
 	static Integer encodeDepartments(List<String> deptList)
 	{
 		int num = 0;
-		for(String dept : deptList)
+		for (String dept : deptList)
 		{
 			int pos = getPosition(dept);
-			if(pos != -1)
+			if (pos != -1)
 				num += Math.pow(2, pos);
 		}
 		return num;
 	}
+
+	static Integer encodeDepartments(String dept)
+	{
+		int num = 0;
+		int pos = getPosition(dept);
+		if (pos != -1)
+			num += Math.pow(2, pos);
+		return num;
+	}
+
 	static List<String> decodeDepartments(int num)
 	{
 		List<String> deptList = new ArrayList<String>();
 		int i = 1;
-		while(num > 0)
+		while (num > 0)
 		{
-			if(num % 2 == 1)
+			if (num % 2 == 1)
 				deptList.add(depts[depts.length - i]);
 			num = num / 2;
 			i++;

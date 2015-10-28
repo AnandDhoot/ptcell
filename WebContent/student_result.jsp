@@ -61,7 +61,7 @@
 			} 
 			else if(option.equals("Open JAFs"))
 			{
-				List<String> JAFList = JAF.getOpenEligibleJAFs(dept, cpi);
+				List<String> JAFList = JAF.getOpenEligibleJAFs(id);
 				int i = 0;
 				
 				if(JAFList.size() > 0)

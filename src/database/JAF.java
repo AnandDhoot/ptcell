@@ -41,24 +41,33 @@ public class JAF
 		return signedJAFs;
 	}
 
-	public static List<String> getOpenEligibleJAFs(String department, float cpi)
+	public static List<String> getOpenEligibleJAFs(String id)
 	{
-		List<String> deptList = new ArrayList<String>();
-		deptList.add(department);
-		int num = DbUtils.encodeDepartments(deptList);
 		List<String> openJAFs = new ArrayList<String>();
+		int dept=0;
+		float cpi=0;
 		Connection connection = null;
 		try
 		{
 			connection = DbUtils.getConnection();
 			// TODO - Also check endTime
+			
 			PreparedStatement pstmt = connection.prepareStatement(
+					"select department,cpi from student where rollnumber=?");
+			pstmt.setString(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+			dept=DbUtils.encodeDepartments(rs.getString(1));
+			cpi=rs.getFloat(2);
+			}
+			// TODO - Also check endTime
+		pstmt = connection.prepareStatement(
 					"select name, category, jafnumber, endTime, profile "
 					+ "from jaf natural join company "
-					+ "where (depteligible | ? > 0) and cpicutoff > ? and now() <= endTime");
-			pstmt.setInt(1, num);
-			pstmt.setFloat(2, num);
-			ResultSet rs = pstmt.executeQuery();
+					+ "where (depteligible | ? > 0) and cpicutoff < ? and now() <= endTime");
+			pstmt.setInt(1, dept);
+			pstmt.setFloat(2, cpi);
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				openJAFs.add(rs.getString(1));
