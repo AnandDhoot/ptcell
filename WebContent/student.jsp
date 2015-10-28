@@ -13,8 +13,6 @@ Student Roll Number:
 <input type="text" name="id" value='<%=request.getParameter("id") %>' readonly /><br><br>
 <input type="text" name="pass" value='<%=request.getParameter("pass") %>' readonly /><br><br>
 <input type="text" name="type" value='<%=request.getAttribute("type") %>' readonly /><br><br>
-<input type="text" name="dept" value='<%=request.getAttribute("dept") %>' readonly /><br><br>
-<input type="text" name="cpi" value='<%=request.getAttribute("cpi") %>' readonly /><br><br>
 <input type="radio" name="option" value="Personal Details" />View Personal Details<br>
 <input type="radio" name="option" value="Signed JAFs" />See signed JAFs<br>
 <input type="radio" name="option" value="Open JAFs" />See Open JAFs<br>

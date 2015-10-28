@@ -54,8 +54,6 @@ public class StudentResult extends HttpServlet
 		out.println("</h3><p>");
 
 		String id = request.getParameter("id");
-		String dept = request.getParameter("dept");
-		Float cpi = Float.parseFloat(request.getParameter("cpi"));
 		String option = request.getParameter("option");
 
 		if (option == null || option.equalsIgnoreCase(""))
@@ -109,7 +107,7 @@ public class StudentResult extends HttpServlet
 		}
 		else if (option.equals("Open JAFs"))
 		{
-			List<String> JAFList = JAF.getOpenEligibleJAFs(dept, cpi);
+			List<String> JAFList = JAF.getOpenEligibleJAFs(id);
 			int i = 0;
 
 			if (JAFList.size() > 0)

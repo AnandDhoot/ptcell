@@ -19,8 +19,8 @@ public class JAF
 			connection = DbUtils.getConnection();
 			PreparedStatement pstmt = connection.prepareStatement(
 					"select name, jafnumber, status, companyID "
-					+ "from application natural join company "
-					+ "where rollnumber=?");
+							+ "from application natural join company "
+							+ "where rollnumber=?");
 			pstmt.setString(1, RollNumber);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
@@ -42,24 +42,34 @@ public class JAF
 		return signedJAFs;
 	}
 
-	public static List<String> getOpenEligibleJAFs(String department, float cpi)
+	public static List<String> getOpenEligibleJAFs(String id)
 	{
-		List<String> deptList = new ArrayList<String>();
-		deptList.add(department);
-		int num = DbUtils.encodeDepartments(deptList);
 		List<String> openJAFs = new ArrayList<String>();
+		int dept = 0;
+		float cpi = 0;
 		Connection connection = null;
 		try
 		{
 			connection = DbUtils.getConnection();
 			// TODO - Also check endTime
+
 			PreparedStatement pstmt = connection.prepareStatement(
-					"select name, category, jafnumber, endTime, profile, companyid "
-					+ "from jaf natural join company "
-					+ "where (depteligible | ? > 0) and cpicutoff > ? and now() <= endTime");
-			pstmt.setInt(1, num);
-			pstmt.setFloat(2, num);
+					"select department,cpi from student where rollnumber=?");
+			pstmt.setString(1, id);
 			ResultSet rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				dept = DbUtils.encodeDepartments(rs.getString(1));
+				cpi = rs.getFloat(2);
+			}
+			// TODO - Also check endTime
+			pstmt = connection.prepareStatement(
+					"select name, category, jafnumber, endTime, profile, companyid "
+							+ "from jaf natural join company "
+							+ "where (depteligible | ? > 0) and cpicutoff < ? and now() <= endTime");
+			pstmt.setInt(1, dept);
+			pstmt.setFloat(2, cpi);
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				openJAFs.add(rs.getString(1));
@@ -80,6 +90,7 @@ public class JAF
 		}
 		return openJAFs;
 	}
+
 	public static List<String> getJAFDetails(String companyID, int jafNumber)
 	{
 		List<String> JAFDetails = new ArrayList<String>();
@@ -96,7 +107,7 @@ public class JAF
 			int columnCount = rsmd.getColumnCount();
 			while (rs.next())
 			{
-				for(int i=1; i<=columnCount; i++)
+				for (int i = 1; i <= columnCount; i++)
 				{
 					JAFDetails.add(rsmd.getColumnName(i));
 					JAFDetails.add(rs.getString(i));

@@ -45,85 +45,79 @@ public class AuthFilter implements Filter
 			FilterChain chain) throws IOException, ServletException
 	{
 		String path = ((HttpServletRequest) request).getRequestURI();
-		if(path.equals("/ptcell/JAFDetails"))
+		if (path.equals("/ptcell/JAFDetails"))
 		{
 			chain.doFilter(request, response);
 		}
 		else
 		{
-		// TODO Auto-generated method stub
-		// place your code here
-		String userid = request.getParameter("id");
-		String password = request.getParameter("pass");
-		String type = "Invalid";
-		String dept = "Invalid";
-		String cpi = "0.0";
+			// TODO Auto-generated method stub
+			// place your code here
+			String userid = request.getParameter("id");
+			String password = request.getParameter("pass");
+			String type = "Invalid";
 
-		if (userid == null || userid.equalsIgnoreCase("") || password == null
-				|| password.equalsIgnoreCase(""))
-		{
-			System.out.println("Invalid input");
-		}
-		else
-		{
-			List<String> str = new ArrayList<String>();
-			String pass = "";
-			if (userid.length() == 9)
+			if (userid == null || userid.equalsIgnoreCase("")
+					|| password == null || password.equalsIgnoreCase(""))
 			{
-				str = PasswordCheck.getStudentPassword(userid);
-				pass = str.get(0);
-				dept = str.get(1);
-				cpi = str.get(2);
-				if (pass.equals(password))
-				{
-					type = "Student";
-					System.out.println("Student Authorized");
-				}
-				else if (!pass.equals(password))
-					System.out.println("Invalid Password");
-				else
-					System.out.println("Invalid User");
-			}
-			else if (userid.length() == 6)
-			{
-				pass = PasswordCheck.getCoordinatorPassword(userid);
-				if (pass.equals(password))
-				{
-					type = "Coordinator";
-					System.out.println("Coordinator Authorized");
-				}
-				else if (!pass.equals(password))
-					System.out.println("Invalid Password");
-				else
-					System.out.println("Invalid User");
-			}
-			else if (userid.length() == 5)
-			{
-				pass = PasswordCheck.getCompanyPassword(userid);
-				if (pass.equals(password))
-				{
-					type = "Company";
-					System.out.println("Company Authorized");
-				}
-				else if (!pass.equals(password))
-					System.out.println("Invalid Password");
-				else
-					System.out.println("Invalid User");
+				System.out.println("Invalid input");
 			}
 			else
-				System.out.println("Invalid User");
-		}
+			{
+				List<String> str = new ArrayList<String>();
+				String pass = "";
+				if (userid.length() == 9)
+				{
+					str = PasswordCheck.getStudentPassword(userid);
+					pass = str.get(0);
+					if (pass.equals(password))
+					{
+						type = "Student";
+						System.out.println("Student Authorized");
+					}
+					else if (!pass.equals(password))
+						System.out.println("Invalid Password");
+					else
+						System.out.println("Invalid User");
+				}
+				else if (userid.length() == 6)
+				{
+					pass = PasswordCheck.getCoordinatorPassword(userid);
+					if (pass.equals(password))
+					{
+						type = "Coordinator";
+						System.out.println("Coordinator Authorized");
+					}
+					else if (!pass.equals(password))
+						System.out.println("Invalid Password");
+					else
+						System.out.println("Invalid User");
+				}
+				else if (userid.length() == 5)
+				{
+					pass = PasswordCheck.getCompanyPassword(userid);
+					if (pass.equals(password))
+					{
+						type = "Company";
+						System.out.println("Company Authorized");
+					}
+					else if (!pass.equals(password))
+						System.out.println("Invalid Password");
+					else
+						System.out.println("Invalid User");
+				}
+				else
+					System.out.println("Invalid User");
+			}
 
-		request.setAttribute("type", type);
-		request.setAttribute("dept", dept);
-		request.setAttribute("cpi", cpi);
-
-		// TODO - Add cases for different landing pages depending on the type
-		if (type.equals("Invalid"))
-			request.getRequestDispatcher("index.html").forward(request,
-					response);
-		else
-			chain.doFilter(request, response);
+			request.setAttribute("type", type);
+			// TODO - Add cases for different landing pages depending on the
+			// type
+			if (type.equals("Invalid"))
+				request.getRequestDispatcher("index.html").forward(request,
+						response);
+			else
+				chain.doFilter(request, response);
 		}
 	}
 
