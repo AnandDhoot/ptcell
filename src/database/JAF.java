@@ -51,10 +51,11 @@ public class JAF
 		try
 		{
 			connection = DbUtils.getConnection();
+			// TODO - Also check endTime
 			PreparedStatement pstmt = connection.prepareStatement(
 					"select name, category, jafnumber, endTime, profile "
 					+ "from jaf natural join company "
-					+ "where (depteligible | ? > 0) and cpicutoff > ?");
+					+ "where (depteligible | ? > 0) and cpicutoff > ? and now() <= endTime");
 			pstmt.setInt(1, num);
 			pstmt.setFloat(2, num);
 			ResultSet rs = pstmt.executeQuery();

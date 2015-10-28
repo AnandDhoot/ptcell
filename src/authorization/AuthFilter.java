@@ -1,59 +1,56 @@
 package authorization;
 
-import java.util.List;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 
 import database.PasswordCheck;
 
 /**
- * Servlet implementation class AuthorizeStudent
+ * Servlet Filter implementation class AuthFilter
  */
-@WebServlet("/AuthorizeStudent")
-public class Authorize extends HttpServlet
+@WebFilter("/AuthFilter")
+public class AuthFilter implements Filter
 {
-	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @see HttpServlet#HttpServlet()
+	 * Default constructor.
 	 */
-	public Authorize()
+	public AuthFilter()
 	{
-		super();
 		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see Filter#destroy()
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException
+	public void destroy()
 	{
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ")
-				.append(request.getContextPath());
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException
+	public void doFilter(ServletRequest request, ServletResponse response,
+			FilterChain chain) throws IOException, ServletException
 	{
+		// TODO Auto-generated method stub
+		// place your code here
 		String userid = request.getParameter("id");
 		String password = request.getParameter("pass");
 		String type = "Invalid";
 		String dept = "Invalid";
 		String cpi = "0.0";
-		
+
 		if (userid == null || userid.equalsIgnoreCase("") || password == null
 				|| password.equalsIgnoreCase(""))
 		{
@@ -109,18 +106,24 @@ public class Authorize extends HttpServlet
 				System.out.println("Invalid User");
 		}
 		
-		if(!type.equals("Invalid User"))
-			request.setAttribute("id", userid);
 		request.setAttribute("type", type);
 		request.setAttribute("dept", dept);
 		request.setAttribute("cpi", cpi);
+		
+		// TODO - Add cases for different landing pages depending on the type
 		if(type.equals("Invalid"))
 			request.getRequestDispatcher("index.html").forward(request, response);
-		else if(type.equals("Student"))
-			request.getRequestDispatcher("student.jsp").forward(request, response);
 		else
-			request.getRequestDispatcher("student.jsp").forward(request, response);
+			chain.doFilter(request, response);
 			
+	}
+
+	/**
+	 * @see Filter#init(FilterConfig)
+	 */
+	public void init(FilterConfig fConfig) throws ServletException
+	{
+		// TODO Auto-generated method stub
 	}
 
 }
