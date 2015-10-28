@@ -14,8 +14,6 @@
 		<p>
 		<%
 			String id = request.getParameter("id");
-			String dept = request.getParameter("dept");
-			Float cpi = Float.parseFloat(request.getParameter("cpi"));
 			String option = request.getParameter("option");
 		
 			if(option==null || option.equalsIgnoreCase(""))

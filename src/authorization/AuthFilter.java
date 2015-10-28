@@ -107,8 +107,6 @@ public class AuthFilter implements Filter
 		}
 		
 		request.setAttribute("type", type);
-		request.setAttribute("dept", dept);
-		request.setAttribute("cpi", cpi);
 		
 		// TODO - Add cases for different landing pages depending on the type
 		if(type.equals("Invalid"))
