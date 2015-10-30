@@ -31,34 +31,76 @@ public class StudentDetails extends HttpServlet
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		response.getWriter().append("Served at: ")
-				.append(request.getContextPath());
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		String id = request.getParameter("id");
+		String pass = request.getParameter("pass");
+		String type = request.getParameter("type");
 		String option = request.getParameter("option");
 		if (option.equals("Personal Details"))
 		{
 			String details = "<table>";
 			List<String> studentDetails = Student.getStudentDetails(id);
-			for (int i = 0; i < studentDetails.size()/2; i++)
-				details += "<tr><td>" + studentDetails.get(i * 2) + "</td><td>"
-						+ studentDetails.get(i * 2 + 1) + "</td></tr>";
+			for (int i = 0; i < studentDetails.size() / 2; i++)
+				details += "<tr><td>" + studentDetails.get(i * 2) + "</td><td>" + studentDetails.get(i * 2 + 1)
+						+ "</td></tr>";
 			details += "</table>";
 			request.setAttribute("StudentDetails", details);
 		}
-		request.getRequestDispatcher("StudentResult").forward(request,
-				response);
+		else if (option.equals("Edit Personal Details"))
+		{
+			String details = "<form action='StudentDetails' method='post'>";
+			details += "<input type='radio' name='option' value='Update Student Details' checked='checked' hidden/>";
+			details += "<input type='text' name='id' value='" + id + "' readonly hidden />";
+			details += "<input type='text' name='pass' value='" + pass + "' readonly hidden />";
+			details += "<input type='text' name='type' value='" + type + "' readonly hidden />";
+			details += "<table>";
+			List<String> studentDetails = Student.getStudentDetails(id);
+			for (int i = 0; i < studentDetails.size() / 2; i++)
+			{
+				if (studentDetails.get(i * 2).equalsIgnoreCase("EmailID"))
+				{
+					details += "<tr><td>Email ID</td><td>";
+					details += "<input type='text' name='emailid' value='" + studentDetails.get(i*2+1) + "'/>";
+					details += "</td></tr>";
+				}
+				else if(studentDetails.get(i * 2).equalsIgnoreCase("MobileNumber"))
+				{
+					details += "<tr><td>Mobile Number</td><td>";
+					details += "<input type='text' name='mobile' value='" + studentDetails.get(i*2+1) + "'/>";
+					details += "</td></tr>";
+				}
+				else if(studentDetails.get(i * 2).equalsIgnoreCase("Address"))
+				{
+					details += "<tr><td>Address</td><td>";
+					details += "<input type='text' name='address' value='" + studentDetails.get(i*2+1) + "'/>";
+					details += "</td></tr>";
+				}
+			}
+			details += "</table>";
+			details += "<input type='submit' value='Update to database' /></form>";
+			request.setAttribute("EditStudentDetails", details);
+		}
+		else if (option.equals("Update Student Details"))
+		{
+			String email = request.getParameter("emailid");
+			String mobile = request.getParameter("mobile");
+			String address = request.getParameter("address");
+			Student.updateStudentDetails(id, email, mobile, address);
+			System.out.println("Updated details");
+			request.getRequestDispatcher("student.jsp").forward(request, response);
+			return;
+		}
+		request.getRequestDispatcher("StudentResult").forward(request, response);
 	}
 
 }

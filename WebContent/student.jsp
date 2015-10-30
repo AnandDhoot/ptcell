@@ -8,6 +8,7 @@
 </head>
 <body>
 <form action="StudentDetails" method="post">
+<input type="text" name="isFirst" value="0" readonly hidden />
 <input type="text" name="id" value='<%=request.getParameter("id") %>' readonly hidden />
 <input type="text" name="pass" value='<%=request.getParameter("pass") %>' readonly hidden />
 <input type="text" name="type" value='<%=request.getAttribute("type") %>' readonly hidden />
@@ -15,9 +16,8 @@
 	String approved = request.getAttribute("approved").toString();
 	if (approved.equals("0"))
 	  	{
-			// TODO - Make this fillable form
 %>
-			<input type="radio" name="option" value="Personal Details" />View Personal Details<br>
+			<input type="radio" name="option" value="Edit Personal Details" />Edit Personal Details<br>
 <% 		}
   	else
   	{

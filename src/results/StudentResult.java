@@ -59,6 +59,10 @@ public class StudentResult extends HttpServlet
 		{
 			out.print("Invalid input");
 		}
+		else if (option.equals("Edit Personal Details"))
+		{
+			out.print(request.getAttribute("EditStudentDetails").toString());
+		}
 		else if (option.equals("Personal Details"))
 		{
 			out.print(request.getAttribute("StudentDetails").toString());

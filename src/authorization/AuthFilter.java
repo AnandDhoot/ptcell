@@ -54,6 +54,7 @@ public class AuthFilter implements Filter
 			String userid = request.getParameter("id");
 			String password = request.getParameter("pass");
 			String type = "Invalid";
+			boolean isFirst = Boolean.parseBoolean(request.getParameter("isfirst"));
 
 			if (userid == null || userid.equalsIgnoreCase("")
 					|| password == null || password.equalsIgnoreCase(""))
@@ -115,13 +116,13 @@ public class AuthFilter implements Filter
 			if (type.equals("Invalid"))
 				request.getRequestDispatcher("index.html").forward(request,
 						response);
-			else if (type.equals("Student"))
+			else if (type.equals("Student") && isFirst)
 				request.getRequestDispatcher("student.jsp").forward(request,
 						response);
-			else if (type.equals("Coordinator"))
+			else if (type.equals("Coordinator") && isFirst)
 				request.getRequestDispatcher("coordinator.jsp").forward(request,
 						response);
-			else if (type.equals("Company"))
+			else if (type.equals("Company") && isFirst)
 				request.getRequestDispatcher("company.jsp").forward(request,
 						response);
 			else

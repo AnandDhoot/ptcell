@@ -3,14 +3,6 @@
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
-  <servlet>
-    <servlet-name>StudentDetails</servlet-name>
-    <servlet-class>details.StudentDetails</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>JAFDetails</servlet-name>
-    <servlet-class>details.JAFDetails</servlet-class>
-  </servlet>
   <filter>
     <filter-name>Auth</filter-name>
     <filter-class>authorization.AuthFilter</filter-class>
