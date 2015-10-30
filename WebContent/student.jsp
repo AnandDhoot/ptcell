@@ -7,15 +7,27 @@
 <title>Insert title here</title>
 </head>
 <body>
-
 <form action="StudentDetails" method="post">
-Student Roll Number: 
-<input type="text" name="id" value='<%=request.getParameter("id") %>' readonly /><br><br>
-<input type="text" name="pass" value='<%=request.getParameter("pass") %>' readonly /><br><br>
-<input type="text" name="type" value='<%=request.getAttribute("type") %>' readonly /><br><br>
-<input type="radio" name="option" value="Personal Details" />View Personal Details<br>
-<input type="radio" name="option" value="Signed JAFs" />See signed JAFs<br>
-<input type="radio" name="option" value="Open JAFs" />See Open JAFs<br>
+<input type="text" name="id" value='<%=request.getParameter("id") %>' readonly hidden />
+<input type="text" name="pass" value='<%=request.getParameter("pass") %>' readonly hidden />
+<input type="text" name="type" value='<%=request.getAttribute("type") %>' readonly hidden />
+<% 
+	String approved = request.getAttribute("approved").toString();
+	if (approved.equals("0"))
+	  	{
+			// TODO - Make this fillable form
+%>
+			<input type="radio" name="option" value="Personal Details" />View Personal Details<br>
+<% 		}
+  	else
+  	{
+%>
+			<input type="radio" name="option" value="Personal Details" />View Personal Details<br>
+			<input type="radio" name="option" value="Signed JAFs" />See signed JAFs<br>
+			<input type="radio" name="option" value="Open JAFs" />See Open JAFs<br>
+<%
+	}
+%>
 <br>
 <input type="submit" value="Submit" />
 </form>

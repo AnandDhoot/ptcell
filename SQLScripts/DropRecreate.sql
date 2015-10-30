@@ -37,6 +37,7 @@ CREATE TABLE Student
   Name VARCHAR(50) NOT NULL,
   CPI FLOAT NOT NULL,
   CoordinatorID CHAR(6) NOT NULL,
+  Approved INT NOT NULL DEFAULT 0,
   PRIMARY KEY (RollNumber),
   FOREIGN KEY (CoordinatorID) REFERENCES Coordinator(CoordinatorID)
 );

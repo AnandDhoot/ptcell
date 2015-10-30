@@ -27,7 +27,7 @@ public class AuthFilter implements Filter
 	 */
 	public AuthFilter()
 	{
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	/**
@@ -35,7 +35,7 @@ public class AuthFilter implements Filter
 	 */
 	public void destroy()
 	{
-		// TODO Auto-generated method stub
+		
 	}
 
 	/**
@@ -51,8 +51,6 @@ public class AuthFilter implements Filter
 		}
 		else
 		{
-			// TODO Auto-generated method stub
-			// place your code here
 			String userid = request.getParameter("id");
 			String password = request.getParameter("pass");
 			String type = "Invalid";
@@ -66,13 +64,16 @@ public class AuthFilter implements Filter
 			{
 				List<String> str = new ArrayList<String>();
 				String pass = "";
+				String approved = "";
 				if (userid.length() == 9)
 				{
 					str = PasswordCheck.getStudentPassword(userid);
 					pass = str.get(0);
+					approved = str.get(1);
 					if (pass.equals(password))
 					{
 						type = "Student";
+						request.setAttribute("approved", approved);
 						System.out.println("Student Authorized");
 					}
 					else if (!pass.equals(password))
@@ -111,10 +112,17 @@ public class AuthFilter implements Filter
 			}
 
 			request.setAttribute("type", type);
-			// TODO - Add cases for different landing pages depending on the
-			// type
 			if (type.equals("Invalid"))
 				request.getRequestDispatcher("index.html").forward(request,
+						response);
+			else if (type.equals("Student"))
+				request.getRequestDispatcher("student.jsp").forward(request,
+						response);
+			else if (type.equals("Coordinator"))
+				request.getRequestDispatcher("coordinator.jsp").forward(request,
+						response);
+			else if (type.equals("Company"))
+				request.getRequestDispatcher("company.jsp").forward(request,
 						response);
 			else
 				chain.doFilter(request, response);
@@ -126,7 +134,7 @@ public class AuthFilter implements Filter
 	 */
 	public void init(FilterConfig fConfig) throws ServletException
 	{
-		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -17,14 +17,13 @@ public class PasswordCheck
 		{
 			connection = DbUtils.getConnection();
 			PreparedStatement pstmt = connection
-					.prepareStatement("select password, department, cpi from student where rollnumber=?");
+					.prepareStatement("select password, approved from student where rollnumber=?");
 			pstmt.setString(1, id);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				str.add(rs.getString(1));
 				str.add(rs.getString(2));
-				str.add(String.valueOf(rs.getFloat(3)));
 			}
 		}
 		catch (SQLException sqle)

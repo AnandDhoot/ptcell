@@ -23,7 +23,6 @@ public class JAFResult extends HttpServlet
 	public JAFResult()
 	{
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

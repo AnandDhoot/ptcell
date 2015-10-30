@@ -51,8 +51,6 @@ public class JAF
 		try
 		{
 			connection = DbUtils.getConnection();
-			// TODO - Also check endTime
-
 			PreparedStatement pstmt = connection.prepareStatement(
 					"select department,cpi from student where rollnumber=?");
 			pstmt.setString(1, id);
@@ -62,7 +60,6 @@ public class JAF
 				dept = DbUtils.encodeDepartments(rs.getString(1));
 				cpi = rs.getFloat(2);
 			}
-			// TODO - Also check endTime
 			pstmt = connection.prepareStatement(
 					"select name, category, jafnumber, endTime, profile, companyid "
 							+ "from jaf natural join company "

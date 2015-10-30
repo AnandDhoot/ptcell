@@ -25,7 +25,6 @@ public class JAFDetails extends HttpServlet
 	public JAFDetails()
 	{
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

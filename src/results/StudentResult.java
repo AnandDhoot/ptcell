@@ -26,7 +26,6 @@ public class StudentResult extends HttpServlet
 	public StudentResult()
 	{
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
