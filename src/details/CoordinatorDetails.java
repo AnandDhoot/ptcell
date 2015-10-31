@@ -46,6 +46,7 @@ public class CoordinatorDetails extends HttpServlet {
 		out.print(request.getParameter("option"));
 		out.println("</h3><p>");
 		String id = request.getParameter("id");
+		String pass = request.getParameter("pass");
 		String option = request.getParameter("option");
 		if(option.equals("Verify Students")){
 			
@@ -77,6 +78,8 @@ public class CoordinatorDetails extends HttpServlet {
 				out.print("</td><td>");
 				out.println("<form action='CoordinatorDetails' method='post'>"
 						+ "<input type='text' name='option' value='StudDetails' hidden/>"
+						+"<input type='text' name='id' value='"+id+"' hidden/>"
+						+"<input type='text' name='pass' value='"+pass+"' hidden/>"
 						+ "<input type='text' name='rollno' value='"
 						+ StuList.get(i * 4) + "' hidden/>"
 						+ "<input type='submit' value='View Details' />"
@@ -100,6 +103,8 @@ public class CoordinatorDetails extends HttpServlet {
 		details+="<form action='CoordinatorDetails' method='post'>"
 					+ "<input type='text' name='option' value='VerifyStud' hidden/>"
 					+ "<input type='text' name='rollno' value='"
+					+"<input type='text' name='id' value='"+id+"' hidden/>"
+					+"<input type='text' name='pass' value='"+pass+"' hidden/>"
 					+ sid + "' hidden/>"
 					+ "<input type='submit' value='Verify' />"
 					+ "</form>";
@@ -131,6 +136,8 @@ public class CoordinatorDetails extends HttpServlet {
 					+ "<input type='text' name='option' value='VerifyJAF' hidden/>"
 					+ "<input type='text' name='CompID' value='"
 					+ companyID + "' hidden/>"
+					+"<input type='text' name='id' value='"+id+"' hidden/>"
+					+"<input type='text' name='pass' value='"+pass+"' hidden/>"
 					+ "<input type='text' name='jafNum' value='"
 					+ JAFNumber + "' hidden/>"
 					+ "<input type='submit' value='Verify' />"
@@ -168,6 +175,8 @@ public class CoordinatorDetails extends HttpServlet {
 						+ "<input type='text' name='option' value='JAFDetails' hidden/>"
 						+ "<input type='text' name='CompID' value='"
 						+ StuList.get(i * 5 + 4) + "' hidden/>"
+								+"<input type='text' name='id' value='"+id+"' hidden/>"
+								+"<input type='text' name='pass' value='"+pass+"' hidden/>"
 						+ "<input type='text' name='jafNum' value='"
 						+ StuList.get(i * 5 + 1) + "' hidden/>"
 						+ "<input type='submit' value='View Details' />"
