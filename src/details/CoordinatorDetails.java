@@ -102,10 +102,10 @@ public class CoordinatorDetails extends HttpServlet {
 			details += "</table>";
 		details+="<form action='CoordinatorDetails' method='post'>"
 					+ "<input type='text' name='option' value='VerifyStud' hidden/>"
-					+ "<input type='text' name='rollno' value='"
+					+ "<input type='text' name='rollno' value='"+ sid + "' hidden/>"
 					+"<input type='text' name='id' value='"+id+"' hidden/>"
 					+"<input type='text' name='pass' value='"+pass+"' hidden/>"
-					+ sid + "' hidden/>"
+
 					+ "<input type='submit' value='Verify' />"
 					+ "</form>";
 			out.print(details);
