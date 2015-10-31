@@ -41,6 +41,7 @@ public class AuthFilter implements Filter
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
+	
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException
 	{
@@ -54,8 +55,7 @@ public class AuthFilter implements Filter
 			String userid = request.getParameter("id");
 			String password = request.getParameter("pass");
 			String type = "Invalid";
-			boolean isFirst = Boolean.parseBoolean(request.getParameter("isfirst"));
-
+			boolean isFirst = Boolean.parseBoolean(request.getParameter("isFirst"));
 			if (userid == null || userid.equalsIgnoreCase("")
 					|| password == null || password.equalsIgnoreCase(""))
 			{
@@ -113,20 +113,7 @@ public class AuthFilter implements Filter
 			}
 
 			request.setAttribute("type", type);
-			if (type.equals("Invalid"))
-				request.getRequestDispatcher("index.html").forward(request,
-						response);
-			else if (type.equals("Student") && isFirst)
-				request.getRequestDispatcher("student.jsp").forward(request,
-						response);
-			else if (type.equals("Coordinator") && isFirst)
-				request.getRequestDispatcher("coordinator.jsp").forward(request,
-						response);
-			else if (type.equals("Company") && isFirst)
-				request.getRequestDispatcher("company.jsp").forward(request,
-						response);
-			else
-				chain.doFilter(request, response);
+			chain.doFilter(request, response);
 		}
 	}
 

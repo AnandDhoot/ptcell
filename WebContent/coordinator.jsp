@@ -7,27 +7,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="StudentDetails" method="post">
+<form action="CoordinatorDetails" method="post">
+<input type="text" name="isFirst" value="0" readonly hidden />
 <input type="text" name="id" value='<%=request.getParameter("id") %>' readonly hidden />
 <input type="text" name="pass" value='<%=request.getParameter("pass") %>' readonly hidden />
 <input type="text" name="type" value='<%=request.getAttribute("type") %>' readonly hidden />
-<% 
-	String approved = request.getAttribute("approved").toString();
-	if (approved.equals("0"))
-	  	{
-%>
-			<input type="radio" name="option" value="Edit Personal Details" />Edit Personal Details<br>
-<% 		}
-  	else
-  	{
-%>
-			<input type="radio" name="option" value="Personal Details" />View Personal Details<br>
-			<input type="radio" name="option" value="Signed JAFs" />See signed JAFs<br>
-			<input type="radio" name="option" value="Open JAFs" />See Open JAFs<br>
-<%
-	}
-%>
-<br>
+<input type="radio" name="option" value="Verify Students" />Verify Students<br>
+<input type="radio" name="option" value="Verify JAFs" />Verify JAFs<br>
 <input type="submit" value="Submit" />
 </form>
 </body>
