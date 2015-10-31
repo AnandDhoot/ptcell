@@ -9,7 +9,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JAF
-{
+{	
+	public static void chgJAFStage(int status,int JAFno,String CompanyID){
+		Connection connection = null;
+		try
+		{
+			connection = DbUtils.getConnection();
+			PreparedStatement pstmt = connection.prepareStatement(
+					"update jaf set stage=? "
+							+ "where companyid=? and jafnumber=?");
+			pstmt.setInt(1, status);
+			pstmt.setString(2, CompanyID);
+			pstmt.setInt(3,JAFno);
+			pstmt.executeUpdate();
+		
+		}
+		catch (SQLException sqle)
+		{
+			System.out.println("SQL exception when getting chaging  JAF stage");
+		}
+		finally
+		{
+			DbUtils.closeConnection(connection);
+		}
+	
+	
+}
 	public static List<String> getSignedJAFs(String RollNumber)
 	{
 		List<String> signedJAFs = new ArrayList<String>();

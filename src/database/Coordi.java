@@ -48,7 +48,7 @@ public class Coordi
 		{
 			connection = DbUtils.getConnection();
 			PreparedStatement pstmt = connection.prepareStatement(
-					"select name, jafnumber, stage, company.name "
+					"select name, jafnumber, stage, company.name ,companyid "
 							+ "from jaf natural join company "
 							+ "where coordinatorid=?");
 			pstmt.setString(1, id);
@@ -59,6 +59,7 @@ public class Coordi
 				signedJAFs.add(rs.getString(2));
 				signedJAFs.add(rs.getString(3));
 				signedJAFs.add(rs.getString(4));
+				signedJAFs.add(rs.getString(5));
 			}
 		}
 		catch (SQLException sqle)

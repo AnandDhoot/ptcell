@@ -11,6 +11,30 @@ import java.util.List;
 public class Student
 {
 	// TODO - Add resume to the table
+	public static void chgStatus(int status,String rollno){
+		Connection connection = null;
+		try
+		{
+			connection = DbUtils.getConnection();
+			PreparedStatement pstmt = connection.prepareStatement(
+					"update student set approved=? "
+							+ "where rollnumber=?");
+			pstmt.setInt(1, status);
+			pstmt.setString(2, rollno);
+			pstmt.executeUpdate();
+		
+		}
+		catch (SQLException sqle)
+		{
+			System.out.println("SQL exception when getting chaging  Studetn Status");
+		}
+		finally
+		{
+			DbUtils.closeConnection(connection);
+		}
+	
+	
+}
 	public static List<String> getStudentDetails(String RollNumber)
 	{
 		List<String> studentDetails = new ArrayList<String>();
