@@ -12,6 +12,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import database.PasswordCheck;
 
@@ -27,7 +28,7 @@ public class AuthFilter implements Filter
 	 */
 	public AuthFilter()
 	{
-		
+
 	}
 
 	/**
@@ -35,15 +36,15 @@ public class AuthFilter implements Filter
 	 */
 	public void destroy()
 	{
-		
+
 	}
 
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
-	
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException
+
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException
 	{
 		String path = ((HttpServletRequest) request).getRequestURI();
 		if (path.equals("/ptcell/JAFDetails"))
@@ -52,12 +53,21 @@ public class AuthFilter implements Filter
 		}
 		else
 		{
-			String userid = request.getParameter("id");
-			String password = request.getParameter("pass");
+			String userid;
+			String password;
+			if (path.equals("/ptcell/AuthRedirect"))
+			{
+				userid = request.getParameter("id");
+				password = request.getParameter("pass");
+			}
+			else
+			{
+				HttpSession ss = ((HttpServletRequest) request).getSession(true);
+				userid = ss.getAttribute("id").toString();
+				password = ss.getAttribute("pass").toString();
+			}
 			String type = "Invalid";
-			boolean isFirst = Boolean.parseBoolean(request.getParameter("isFirst"));
-			if (userid == null || userid.equalsIgnoreCase("")
-					|| password == null || password.equalsIgnoreCase(""))
+			if (userid == null || userid.equalsIgnoreCase("") || password == null || password.equalsIgnoreCase(""))
 			{
 				System.out.println("Invalid input");
 			}
@@ -111,7 +121,6 @@ public class AuthFilter implements Filter
 				else
 					System.out.println("Invalid User");
 			}
-
 			request.setAttribute("type", type);
 			chain.doFilter(request, response);
 		}
@@ -122,7 +131,7 @@ public class AuthFilter implements Filter
 	 */
 	public void init(FilterConfig fConfig) throws ServletException
 	{
-		
+
 	}
 
 }

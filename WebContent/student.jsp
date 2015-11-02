@@ -20,7 +20,8 @@
 <% 		}
   	else
   	{
-%>
+%>			
+
 			<input type="radio" name="option" value="Personal Details" />View Personal Details<br>
 			<input type="radio" name="option" value="Signed JAFs" />See signed JAFs<br>
 			<input type="radio" name="option" value="Open JAFs" />See Open JAFs<br>

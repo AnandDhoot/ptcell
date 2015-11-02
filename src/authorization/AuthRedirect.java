@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class AuthRedirect
@@ -27,7 +28,6 @@ public class AuthRedirect extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -35,8 +35,10 @@ public class AuthRedirect extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		doGet(request, response);
 		String type = (String) request.getAttribute("type");
+		HttpSession ss=request.getSession(true);
+		ss.setAttribute("id", request.getParameter("id"));
+		ss.setAttribute("pass", request.getParameter("pass"));
 		if (type.equals("Invalid"))
 			request.getRequestDispatcher("index.html").forward(request,
 					response);
