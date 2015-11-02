@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import database.Coordi;
 import database.JAF;
@@ -50,8 +51,9 @@ public class CoordinatorDetails extends HttpServlet
 		out.print("<body><center><h3>");
 		out.print(request.getParameter("option"));
 		out.println("</h3><p>");
-		String id = request.getParameter("id");
-		String pass = request.getParameter("pass");
+		HttpSession ss = ((HttpServletRequest) request).getSession(true);
+		String id = ss.getAttribute("id").toString();
+		String pass = ss.getAttribute("pass").toString();
 		String option = request.getParameter("option");
 		if (option.equals("Verify Students"))
 		{
@@ -84,8 +86,6 @@ public class CoordinatorDetails extends HttpServlet
 				out.print("</td><td>");
 				out.println("<form action='CoordinatorDetails' method='post'>"
 						+ "<input type='text' name='option' value='StudDetails' hidden/>"
-						+ "<input type='text' name='id' value='" + id + "' hidden/>"
-						+ "<input type='text' name='pass' value='" + pass + "' hidden/>"
 						+ "<input type='text' name='rollno' value='" + StuList.get(i * 4) + "' hidden/>"
 						+ "<input type='submit' value='View Details' />" + "</form>");
 				out.print("</td></tr>");
@@ -108,9 +108,6 @@ public class CoordinatorDetails extends HttpServlet
 			details += "<form action='CoordinatorDetails' method='post'>"
 					+ "<input type='text' name='option' value='VerifyStud' hidden/>"
 					+ "<input type='text' name='rollno' value='" + sid + "' hidden/>"
-					+ "<input type='text' name='id' value='" + id + "' hidden/>"
-					+ "<input type='text' name='pass' value='" + pass + "' hidden/>"
-
 					+ "<input type='submit' value='Verify' />" + "</form>";
 			out.print(details);
 		}
@@ -138,8 +135,6 @@ public class CoordinatorDetails extends HttpServlet
 			details += "<form action='CoordinatorDetails' method='post'>"
 					+ "<input type='text' name='option' value='VerifyJAF' hidden/>"
 					+ "<input type='text' name='CompID' value='" + companyID + "' hidden/>"
-					+ "<input type='text' name='id' value='" + id + "' hidden/>"
-					+ "<input type='text' name='pass' value='" + pass + "' hidden/>"
 					+ "<input type='text' name='jafNum' value='" + JAFNumber + "' hidden/>"
 					+ "<input type='submit' value='Verify' />" + "</form>";
 			out.print(details);
@@ -175,8 +170,6 @@ public class CoordinatorDetails extends HttpServlet
 				out.println("<form action='CoordinatorDetails' method='post'>"
 						+ "<input type='text' name='option' value='JAFDetails' hidden/>"
 						+ "<input type='text' name='CompID' value='" + StuList.get(i * 5 + 4) + "' hidden/>"
-						+ "<input type='text' name='id' value='" + id + "' hidden/>"
-						+ "<input type='text' name='pass' value='" + pass + "' hidden/>"
 						+ "<input type='text' name='jafNum' value='" + StuList.get(i * 5 + 1) + "' hidden/>"
 						+ "<input type='submit' value='View Details' />" + "</form>");
 				out.print("</td></tr>");

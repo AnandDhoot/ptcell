@@ -8,8 +8,6 @@
 </head>
 <body>
 <form action="StudentDetails" method="post">
-<input type="text" name="id" value='<%=request.getParameter("id") %>' readonly hidden />
-<input type="text" name="pass" value='<%=request.getParameter("pass") %>' readonly hidden />
 <input type="text" name="type" value='<%=request.getAttribute("type") %>' readonly hidden />
 <% 
 	String approved = request.getAttribute("approved").toString();
@@ -20,7 +18,8 @@
 <% 		}
   	else
   	{
-%>
+%>			
+
 			<input type="radio" name="option" value="Personal Details" />View Personal Details<br>
 			<input type="radio" name="option" value="Signed JAFs" />See signed JAFs<br>
 			<input type="radio" name="option" value="Open JAFs" />See Open JAFs<br>

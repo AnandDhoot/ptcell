@@ -105,11 +105,6 @@ public class CompanyDetails extends HttpServlet
 
 				JAF.addNewJAF(id, date, cpiCutoff, deptEligible, location, salary, description, profile);
 				
-				out.println(LastDate + " | " + cpiCutoff + " | ");
-				if(deptEligible != null)
-					for(int i=0; i<deptEligible.length; i++)
-						out.println(deptEligible[i] + ",");
-				out.println(" | " + location + " | " + salary + " | " + profile);
 				out.println("<br>JAF Submitted");
 			}
 		}
