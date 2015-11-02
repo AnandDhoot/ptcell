@@ -18,28 +18,33 @@ import database.Student;
  * Servlet implementation class CoordinatorDetails
  */
 @WebServlet("/CoordinatorDetails")
-public class CoordinatorDetails extends HttpServlet {
+public class CoordinatorDetails extends HttpServlet
+{
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public CoordinatorDetails() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public CoordinatorDetails()
+	{
+		super();
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		PrintWriter out = response.getWriter();
 		out.print("<html><head><title>Insert title here</title></head>");
 		out.print("<body><center><h3>");
@@ -48,8 +53,9 @@ public class CoordinatorDetails extends HttpServlet {
 		String id = request.getParameter("id");
 		String pass = request.getParameter("pass");
 		String option = request.getParameter("option");
-		if(option.equals("Verify Students")){
-			
+		if (option.equals("Verify Students"))
+		{
+
 			List<String> StuList = Coordi.getStudents(id);
 			int i = 0;
 
@@ -78,12 +84,10 @@ public class CoordinatorDetails extends HttpServlet {
 				out.print("</td><td>");
 				out.println("<form action='CoordinatorDetails' method='post'>"
 						+ "<input type='text' name='option' value='StudDetails' hidden/>"
-						+"<input type='text' name='id' value='"+id+"' hidden/>"
-						+"<input type='text' name='pass' value='"+pass+"' hidden/>"
-						+ "<input type='text' name='rollno' value='"
-						+ StuList.get(i * 4) + "' hidden/>"
-						+ "<input type='submit' value='View Details' />"
-						+ "</form>");
+						+ "<input type='text' name='id' value='" + id + "' hidden/>"
+						+ "<input type='text' name='pass' value='" + pass + "' hidden/>"
+						+ "<input type='text' name='rollno' value='" + StuList.get(i * 4) + "' hidden/>"
+						+ "<input type='submit' value='View Details' />" + "</form>");
 				out.print("</td></tr>");
 				i++;
 			}
@@ -91,60 +95,57 @@ public class CoordinatorDetails extends HttpServlet {
 			if (StuList.size() > 0)
 				out.print("</table>");
 		}
-		else if(option.equals("StudDetails")){
-			//TODO Put Verify Button 
-			String sid=request.getParameter("rollno");
+		else if (option.equals("StudDetails"))
+		{
+			// TODO Put Verify Button
+			String sid = request.getParameter("rollno");
 			List<String> studentDetails = Student.getStudentDetails(sid);
-			String details="<table>";
+			String details = "<table>";
 			for (int i = 0; i < studentDetails.size() / 2; i++)
 				details += "<tr><td>" + studentDetails.get(i * 2) + "</td><td>" + studentDetails.get(i * 2 + 1)
 						+ "</td></tr>";
 			details += "</table>";
-		details+="<form action='CoordinatorDetails' method='post'>"
+			details += "<form action='CoordinatorDetails' method='post'>"
 					+ "<input type='text' name='option' value='VerifyStud' hidden/>"
-					+ "<input type='text' name='rollno' value='"+ sid + "' hidden/>"
-					+"<input type='text' name='id' value='"+id+"' hidden/>"
-					+"<input type='text' name='pass' value='"+pass+"' hidden/>"
+					+ "<input type='text' name='rollno' value='" + sid + "' hidden/>"
+					+ "<input type='text' name='id' value='" + id + "' hidden/>"
+					+ "<input type='text' name='pass' value='" + pass + "' hidden/>"
 
-					+ "<input type='submit' value='Verify' />"
-					+ "</form>";
+					+ "<input type='submit' value='Verify' />" + "</form>";
 			out.print(details);
 		}
-		else if (option.equals("VerifyStud")){
+		else if (option.equals("VerifyStud"))
+		{
 			String rollno = request.getParameter("rollno").toString();
-			Student.chgStatus(1,rollno);
+			Student.chgStatus(1, rollno);
 		}
-		else if (option.equals("VerifyJAF")){
+		else if (option.equals("VerifyJAF"))
+		{
 			String companyID = request.getParameter("CompID").toString();
-			int JAFNumber = Integer
-					.parseInt(request.getParameter("jafNum").toString());
+			int JAFNumber = Integer.parseInt(request.getParameter("jafNum").toString());
 			JAF.chgJAFStage(1, JAFNumber, companyID);
 		}
 		else if (option.equals("JAFDetails"))
-		{	// TODO ADD Verify Button
+		{ // TODO ADD Verify Button
 			String companyID = request.getParameter("CompID").toString();
-			int JAFNumber = Integer
-					.parseInt(request.getParameter("jafNum").toString());
-			
+			int JAFNumber = Integer.parseInt(request.getParameter("jafNum").toString());
+
 			String details = "<table>";
 			List<String> JAFDetails = JAF.getJAFDetails(companyID, JAFNumber);
 			for (int i = 0; i < JAFDetails.size() / 2; i++)
-				details += "<tr><td>" + JAFDetails.get(i * 2) + "</td><td>"
-						+ JAFDetails.get(i * 2 + 1) + "</td></tr>";
+				details += "<tr><td>" + JAFDetails.get(i * 2) + "</td><td>" + JAFDetails.get(i * 2 + 1) + "</td></tr>";
 			details += "</table>";
-			details+="<form action='CoordinatorDetails' method='post'>"
+			details += "<form action='CoordinatorDetails' method='post'>"
 					+ "<input type='text' name='option' value='VerifyJAF' hidden/>"
-					+ "<input type='text' name='CompID' value='"
-					+ companyID + "' hidden/>"
-					+"<input type='text' name='id' value='"+id+"' hidden/>"
-					+"<input type='text' name='pass' value='"+pass+"' hidden/>"
-					+ "<input type='text' name='jafNum' value='"
-					+ JAFNumber + "' hidden/>"
-					+ "<input type='submit' value='Verify' />"
-					+ "</form>";
+					+ "<input type='text' name='CompID' value='" + companyID + "' hidden/>"
+					+ "<input type='text' name='id' value='" + id + "' hidden/>"
+					+ "<input type='text' name='pass' value='" + pass + "' hidden/>"
+					+ "<input type='text' name='jafNum' value='" + JAFNumber + "' hidden/>"
+					+ "<input type='submit' value='Verify' />" + "</form>";
 			out.print(details);
 		}
-		else if(option.equals("Verify JAFs")){
+		else if (option.equals("Verify JAFs"))
+		{
 			List<String> StuList = Coordi.getJAFs(id);
 			int i = 0;
 
@@ -173,21 +174,18 @@ public class CoordinatorDetails extends HttpServlet {
 				out.print("</td><td>");
 				out.println("<form action='CoordinatorDetails' method='post'>"
 						+ "<input type='text' name='option' value='JAFDetails' hidden/>"
-						+ "<input type='text' name='CompID' value='"
-						+ StuList.get(i * 5 + 4) + "' hidden/>"
-								+"<input type='text' name='id' value='"+id+"' hidden/>"
-								+"<input type='text' name='pass' value='"+pass+"' hidden/>"
-						+ "<input type='text' name='jafNum' value='"
-						+ StuList.get(i * 5 + 1) + "' hidden/>"
-						+ "<input type='submit' value='View Details' />"
-						+ "</form>");
+						+ "<input type='text' name='CompID' value='" + StuList.get(i * 5 + 4) + "' hidden/>"
+						+ "<input type='text' name='id' value='" + id + "' hidden/>"
+						+ "<input type='text' name='pass' value='" + pass + "' hidden/>"
+						+ "<input type='text' name='jafNum' value='" + StuList.get(i * 5 + 1) + "' hidden/>"
+						+ "<input type='submit' value='View Details' />" + "</form>");
 				out.print("</td></tr>");
 				i++;
 			}
 
 			if (StuList.size() > 0)
 				out.print("</table>");
-			
+
 		}
 		out.println("</p></center></body></html>");
 	}

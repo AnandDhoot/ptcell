@@ -55,7 +55,6 @@ public class AuthFilter implements Filter
 			String userid = request.getParameter("id");
 			String password = request.getParameter("pass");
 			String type = "Invalid";
-			boolean isFirst = Boolean.parseBoolean(request.getParameter("isFirst"));
 			if (userid == null || userid.equalsIgnoreCase("")
 					|| password == null || password.equalsIgnoreCase(""))
 			{

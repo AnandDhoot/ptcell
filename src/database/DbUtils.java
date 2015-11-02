@@ -55,6 +55,18 @@ public class DbUtils
 		return 0;
 	}
 
+	static Integer encodeDepartments(String[] deptList)
+	{
+		int num = 0;
+		for (String dept : deptList)
+		{
+			int pos = getPosition(dept);
+			if (pos != -1)
+				num += Math.pow(2, pos);
+		}
+		return num;
+	}
+
 	static Integer encodeDepartments(List<String> deptList)
 	{
 		int num = 0;

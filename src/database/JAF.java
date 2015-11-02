@@ -5,24 +5,77 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JAF
-{	
-	public static void chgJAFStage(int status,int JAFno,String CompanyID){
+{
+	public static void addNewJAF(String companyID, java.util.Date endDateTime, String cpicutoff, String[] deptElig,
+			String location, String salary, String description, String profile)
+	{		
+		java.sql.Date endDate = new java.sql.Date(endDateTime.getTime());
+		java.sql.Timestamp t = new Timestamp(endDate.getTime());
+		
+		System.out.println("--- " + t + " ---");
+		
+		Float cpiCutoff = Float.parseFloat(cpicutoff);
+		Integer sal = Integer.parseInt(salary);
+		int deptEligible = DbUtils.encodeDepartments(deptElig);
+		int oldMaxNum = 0;
 		Connection connection = null;
 		try
 		{
 			connection = DbUtils.getConnection();
-			PreparedStatement pstmt = connection.prepareStatement(
-					"update jaf set stage=? "
-							+ "where companyid=? and jafnumber=?");
+			PreparedStatement pstmt = connection.prepareStatement("select max(jafnumber) from jaf where companyid=?");
+
+			pstmt.setString(1, companyID);
+
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				oldMaxNum = rs.getInt(1);
+			}
+			
+			pstmt = connection.prepareStatement(
+					"insert into jaf "
+					+ " values (?, ?, ?, ?, ?, ?, ?, ?, 0, ?)");
+			pstmt.setString(1, companyID);
+			pstmt.setInt(2, oldMaxNum + 1);
+			pstmt.setTimestamp(3, t);
+			pstmt.setFloat(4, cpiCutoff);
+			pstmt.setInt(5, deptEligible);
+			pstmt.setString(6, location);
+			pstmt.setInt(7, sal);
+			pstmt.setString(8, description);
+			pstmt.setString(9, profile);
+
+			System.out.println(pstmt.toString());
+			pstmt.executeUpdate();
+		}
+		catch (SQLException sqle)
+		{
+			System.out.println("SQL exception when making new JAF");
+		}
+		finally
+		{
+			DbUtils.closeConnection(connection);
+		}
+	}
+
+	public static void chgJAFStage(int status, int JAFno, String CompanyID)
+	{
+		Connection connection = null;
+		try
+		{
+			connection = DbUtils.getConnection();
+			PreparedStatement pstmt = connection
+					.prepareStatement("update jaf set stage=? " + "where companyid=? and jafnumber=?");
 			pstmt.setInt(1, status);
 			pstmt.setString(2, CompanyID);
-			pstmt.setInt(3,JAFno);
+			pstmt.setInt(3, JAFno);
 			pstmt.executeUpdate();
-		
+
 		}
 		catch (SQLException sqle)
 		{
@@ -32,9 +85,9 @@ public class JAF
 		{
 			DbUtils.closeConnection(connection);
 		}
-	
-	
-}
+
+	}
+
 	public static List<String> getSignedJAFs(String RollNumber)
 	{
 		List<String> signedJAFs = new ArrayList<String>();
@@ -42,10 +95,8 @@ public class JAF
 		try
 		{
 			connection = DbUtils.getConnection();
-			PreparedStatement pstmt = connection.prepareStatement(
-					"select name, jafnumber, status, companyID "
-							+ "from application natural join company "
-							+ "where rollnumber=?");
+			PreparedStatement pstmt = connection.prepareStatement("select name, jafnumber, status, companyID "
+					+ "from application natural join company " + "where rollnumber=?");
 			pstmt.setString(1, RollNumber);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
@@ -76,8 +127,8 @@ public class JAF
 		try
 		{
 			connection = DbUtils.getConnection();
-			PreparedStatement pstmt = connection.prepareStatement(
-					"select department,cpi from student where rollnumber=?");
+			PreparedStatement pstmt = connection
+					.prepareStatement("select department,cpi from student where rollnumber=?");
 			pstmt.setString(1, id);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
@@ -86,8 +137,7 @@ public class JAF
 				cpi = rs.getFloat(2);
 			}
 			pstmt = connection.prepareStatement(
-					"select name, category, jafnumber, endTime, profile, companyid "
-							+ "from jaf natural join company "
+					"select name, category, jafnumber, endTime, profile, companyid " + "from jaf natural join company "
 							+ "where (depteligible | ? > 0) and cpicutoff < ? and now() <= endTime");
 			pstmt.setInt(1, dept);
 			pstmt.setFloat(2, cpi);
@@ -120,8 +170,8 @@ public class JAF
 		try
 		{
 			connection = DbUtils.getConnection();
-			PreparedStatement pstmt = connection.prepareStatement(
-					"select * from jaf where companyID=? and jafnumber=?");
+			PreparedStatement pstmt = connection
+					.prepareStatement("select * from jaf where companyID=? and jafnumber=?");
 			pstmt.setString(1, companyID);
 			pstmt.setInt(2, jafNumber);
 			ResultSet rs = pstmt.executeQuery();
