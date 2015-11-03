@@ -46,7 +46,7 @@ public class Logout extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		HttpSession ss= request.getSession(true);
+		HttpSession ss= request.getSession(false);
 		ss.invalidate();
 		response.sendRedirect("index.html");
 

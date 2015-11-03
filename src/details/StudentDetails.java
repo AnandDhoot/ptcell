@@ -43,7 +43,7 @@ public class StudentDetails extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{	
-		HttpSession ss = ((HttpServletRequest) request).getSession(true);
+		HttpSession ss = ((HttpServletRequest) request).getSession(false);
 		String id = ss.getAttribute("id").toString();
 		String pass = ss.getAttribute("pass").toString();
 		String type = request.getParameter("type");
@@ -62,8 +62,6 @@ public class StudentDetails extends HttpServlet
 		{
 			String details = "<form action='StudentDetails' method='post'>";
 			details += "<input type='radio' name='option' value='Update Student Details' checked='checked' hidden/>";
-			details += "<input type='text' name='id' value='" + id + "' readonly hidden />";
-			details += "<input type='text' name='pass' value='" + pass + "' readonly hidden />";
 			details += "<input type='text' name='type' value='" + type + "' readonly hidden />";
 			details += "<table>";
 			List<String> studentDetails = Student.getStudentDetails(id);
