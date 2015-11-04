@@ -55,6 +55,7 @@ public class AuthFilter implements Filter
 		{
 			String userid;
 			String password;
+			System.out.println(path);
 			if (path.equals("/ptcell/AuthRedirect"))
 			{
 				userid = request.getParameter("id");
@@ -62,7 +63,10 @@ public class AuthFilter implements Filter
 			}
 			else
 			{
-				HttpSession ss = ((HttpServletRequest) request).getSession(true);
+				HttpSession ss = ((HttpServletRequest) request).getSession(false);
+				if(ss.getAttribute("id") == null || ss.getAttribute("pass") == null)
+					request.getRequestDispatcher("index.html").forward(request,
+							response);
 				userid = ss.getAttribute("id").toString();
 				password = ss.getAttribute("pass").toString();
 			}

@@ -18,7 +18,7 @@ import database.Student;
 /**
  * Servlet implementation class CoordinatorDetails
  */
-@WebServlet("/CoordinatorDetails")
+@WebServlet("/Logout")
 public class Logout extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
@@ -37,7 +37,8 @@ public class Logout extends HttpServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request, response);
+//		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -49,7 +50,7 @@ public class Logout extends HttpServlet
 		HttpSession ss= request.getSession(false);
 		ss.invalidate();
 		response.sendRedirect("index.html");
-
+		
 	}
 
 }

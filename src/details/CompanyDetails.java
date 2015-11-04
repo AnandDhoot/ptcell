@@ -50,8 +50,8 @@ public class CompanyDetails extends HttpServlet
 		out.print(request.getParameter("option"));
 		out.println("</h3><p>");
 
-		String id = request.getSession().getAttribute("id");
-		String pass = request.getSession().getAttribute("pass");
+		String id = request.getSession(false).getAttribute("id").toString();
+		String pass = request.getSession(false).getAttribute("pass").toString();
 	
 		String option = request.getParameter("option");
 		if (option.equals("Create JAF"))

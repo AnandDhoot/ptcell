@@ -53,7 +53,6 @@ public class CoordinatorDetails extends HttpServlet
 		out.println("</h3><p>");
 		HttpSession ss = ((HttpServletRequest) request).getSession(false);
 		String id = ss.getAttribute("id").toString();
-		String pass = ss.getAttribute("pass").toString();
 		String option = request.getParameter("option");
 		if (option.equals("Verify Students"))
 		{

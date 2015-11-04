@@ -52,7 +52,7 @@ public class StudentResult extends HttpServlet
 		out.print("<body><center><h3>");
 		out.print(request.getParameter("option"));
 		out.println("</h3><p>");
-		HttpSession ss = ((HttpServletRequest) request).getSession(true);
+		HttpSession ss = ((HttpServletRequest) request).getSession(false);
 		String id = ss.getAttribute("id").toString();
 		String option = request.getParameter("option");
 
