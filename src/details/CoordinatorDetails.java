@@ -133,7 +133,7 @@ public class CoordinatorDetails extends HttpServlet
 			JAF.chgJAFStage(1, JAFNumber, companyID);
 		}
 		else if (option.equals("JAFDetails"))
-		{ // TODO ADD Verify Button
+		{ 
 			String companyID = request.getParameter("CompID").toString();
 			int JAFNumber = Integer.parseInt(request.getParameter("jafNum").toString());
 
