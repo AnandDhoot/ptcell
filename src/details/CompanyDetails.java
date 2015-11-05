@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import database.JAF;
 
@@ -35,7 +36,7 @@ public class CompanyDetails extends HttpServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request,response);
 	}
 
 	/**
@@ -49,10 +50,14 @@ public class CompanyDetails extends HttpServlet
 		out.print("<body><center><h3>");
 		out.print(request.getParameter("option"));
 		out.println("</h3><p>");
-
-		String id = request.getSession(false).getAttribute("id").toString();
-		String pass = request.getSession(false).getAttribute("pass").toString();
-	
+		HttpSession ss = request.getSession(false);
+		String id = ss.getAttribute("id").toString();
+		String pass = ss.getAttribute("pass").toString();
+		if(!ss.getAttribute("entity").equals("Company"))
+		{
+			request.getRequestDispatcher("/Logout").forward(request,
+					response);
+			return;}
 		String option = request.getParameter("option");
 		if (option.equals("Create JAF"))
 		{

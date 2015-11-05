@@ -37,7 +37,7 @@ public class CoordinatorDetails extends HttpServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request,response);
 	}
 
 	/**
@@ -53,6 +53,12 @@ public class CoordinatorDetails extends HttpServlet
 		out.println("</h3><p>");
 		HttpSession ss = ((HttpServletRequest) request).getSession(false);
 		String id = ss.getAttribute("id").toString();
+		if(!ss.getAttribute("entity").equals("Coordinator"))
+		{
+			request.getRequestDispatcher("/Logout").forward(request,
+					response);
+			return;}
+		
 		String option = request.getParameter("option");
 		if (option.equals("Verify Students"))
 		{

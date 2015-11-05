@@ -36,8 +36,7 @@ public class StudentResult extends HttpServlet
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException
 	{
-		response.getWriter().append("Served at: ")
-				.append(request.getContextPath());
+		doPost(request,response);
 	}
 
 	/**
@@ -55,7 +54,7 @@ public class StudentResult extends HttpServlet
 		HttpSession ss = ((HttpServletRequest) request).getSession(false);
 		String id = ss.getAttribute("id").toString();
 		String option = request.getParameter("option");
-
+		String app=request.getAttribute("approved").toString();
 		if (option == null || option.equalsIgnoreCase(""))
 		{
 			out.print("Invalid input");
@@ -69,7 +68,11 @@ public class StudentResult extends HttpServlet
 			out.print(request.getAttribute("StudentDetails").toString());
 		}
 		else if (option.equals("Signed JAFs"))
-		{
+		{	
+			if(app.equals("0")){
+				request.getRequestDispatcher("student.jsp").forward(request,
+						response);
+				return;}
 			List<String> JAFList = JAF.getSignedJAFs(id);
 			int i = 0;
 
@@ -110,7 +113,10 @@ public class StudentResult extends HttpServlet
 				out.print("</table>");
 		}
 		else if (option.equals("Open JAFs"))
-		{
+		{	
+			if(app.equals("0")){
+				request.getRequestDispatcher("student.jsp").forward(request,
+						response);return;}
 			List<String> JAFList = JAF.getOpenEligibleJAFs(id);
 			int i = 0;
 

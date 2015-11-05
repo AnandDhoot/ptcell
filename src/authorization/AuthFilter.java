@@ -47,7 +47,7 @@ public class AuthFilter implements Filter
 			throws IOException, ServletException
 	{
 		String path = ((HttpServletRequest) request).getRequestURI();
-		if (path.equals("/ptcell/JAFDetails"))
+		if (path.equals("/ptcell/")||path.equals("/ptcell/index.html"))
 		{
 			chain.doFilter(request, response);
 		}
@@ -55,7 +55,8 @@ public class AuthFilter implements Filter
 		{
 			String userid;
 			String password;
-			System.out.println(path);
+			int flag=0;
+			HttpSession ss = ((HttpServletRequest) request).getSession(false);
 			if (path.equals("/ptcell/AuthRedirect"))
 			{
 				userid = request.getParameter("id");
@@ -63,10 +64,11 @@ public class AuthFilter implements Filter
 			}
 			else
 			{
-				HttpSession ss = ((HttpServletRequest) request).getSession(false);
+
 				if(ss.getAttribute("id") == null || ss.getAttribute("pass") == null)
 					request.getRequestDispatcher("index.html").forward(request,
 							response);
+				flag=1;
 				userid = ss.getAttribute("id").toString();
 				password = ss.getAttribute("pass").toString();
 			}
@@ -126,6 +128,8 @@ public class AuthFilter implements Filter
 					System.out.println("Invalid User");
 			}
 			request.setAttribute("type", type);
+			if(flag==1)
+			ss.setAttribute("entity", type);
 			chain.doFilter(request, response);
 		}
 	}

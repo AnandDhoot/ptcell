@@ -34,7 +34,7 @@ public class StudentDetails extends HttpServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request,response);
 	}
 
 	/**
@@ -44,10 +44,17 @@ public class StudentDetails extends HttpServlet
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{	
 		HttpSession ss = ((HttpServletRequest) request).getSession(false);
+		if(!ss.getAttribute("entity").equals("Student"))
+		{
+			request.getRequestDispatcher("/Logout").forward(request,
+					response);
+			return;}
 		String id = ss.getAttribute("id").toString();
 		String pass = ss.getAttribute("pass").toString();
 		String type = request.getParameter("type");
+		String app=request.getAttribute("approved").toString();
 		String option = request.getParameter("option");
+
 		if (option.equals("Personal Details"))
 		{
 			String details = "<table>";
@@ -59,7 +66,11 @@ public class StudentDetails extends HttpServlet
 			request.setAttribute("StudentDetails", details);
 		}
 		else if (option.equals("Edit Personal Details"))
-		{
+		{	
+			if(app.equals("1")){
+				request.getRequestDispatcher("student.jsp").forward(request,
+						response);
+				return;}
 			String details = "<form action='StudentDetails' method='post'>";
 			details += "<input type='radio' name='option' value='Update Student Details' checked='checked' hidden/>";
 			details += "<input type='text' name='type' value='" + type + "' readonly hidden />";
