@@ -38,6 +38,7 @@ CREATE TABLE Student
   CPI FLOAT NOT NULL,
   CoordinatorID CHAR(6) NOT NULL,
   Approved INT NOT NULL DEFAULT 0,
+  Resume BYTEA, 
   PRIMARY KEY (RollNumber),
   FOREIGN KEY (CoordinatorID) REFERENCES Coordinator(CoordinatorID)
 );

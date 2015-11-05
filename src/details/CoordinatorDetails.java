@@ -75,6 +75,7 @@ public class CoordinatorDetails extends HttpServlet
 				out.print("<th>Department</th>");
 				out.print("<th>Status</th>");
 				out.print("<th>Profile</th>");
+				out.print("<th>See Resume</th>");
 				out.print("</tr>");
 			}
 
@@ -93,6 +94,10 @@ public class CoordinatorDetails extends HttpServlet
 						+ "<input type='text' name='option' value='StudDetails' hidden/>"
 						+ "<input type='text' name='rollno' value='" + StuList.get(i * 4) + "' hidden/>"
 						+ "<input type='submit' value='View Details' />" + "</form>");
+				out.print("</td><td>");
+				out.println("<form action='StudentResume' method='post'>"
+						+ "<input type='text' name='rollno' value='" + StuList.get(i * 4) + "' hidden/>"
+						+ "<input type='submit' value='View Resume' />" + "</form>");
 				out.print("</td></tr>");
 				i++;
 			}
@@ -157,7 +162,7 @@ public class CoordinatorDetails extends HttpServlet
 				out.print("<th>JAF No.</th>");
 				out.print("<th>Stage</th>");
 				out.print("<th>Company Name</th>");
-				out.print("<th>Profile</th>");
+				out.print("<th>View Details & Verify</th>");
 				out.print("</tr>");
 			}
 
@@ -176,7 +181,7 @@ public class CoordinatorDetails extends HttpServlet
 						+ "<input type='text' name='option' value='JAFDetails' hidden/>"
 						+ "<input type='text' name='CompID' value='" + StuList.get(i * 5 + 4) + "' hidden/>"
 						+ "<input type='text' name='jafNum' value='" + StuList.get(i * 5 + 1) + "' hidden/>"
-						+ "<input type='submit' value='View Details' />" + "</form>");
+						+ "<input type='submit' value='View Details & Verify' />" + "</form>");
 				out.print("</td></tr>");
 				i++;
 			}

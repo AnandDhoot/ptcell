@@ -18,10 +18,11 @@
   	{
 %>			
 			
-<a href="/ptcell/StudentDetails?option=Personal+Details">Personal Details</a>
-<a href="/ptcell/StudentDetails?option=Signed+JAFs">See signed JAFs</a>
-<a href="/ptcell/StudentDetails?option=Open+JAFs">See Open JAFs</a>
-<a href="/ptcell/StudentDetails?option=Resume+Upload">Resume Upload</a>		
+<a href="/ptcell/StudentDetails?option=Personal+Details">Personal Details</a><br>
+<a href="/ptcell/StudentDetails?option=Signed+JAFs">See signed JAFs</a><br>
+<a href="/ptcell/StudentDetails?option=Open+JAFs">See Open JAFs</a><br>
+<a href="/ptcell/StudentDetails?option=Resume+Upload">Resume Upload</a><br>		
+<a href="/ptcell/StudentResume">Download Resume</a><br>		
 <%
 	}
 %>

@@ -97,6 +97,8 @@ public class Student
 			{
 				for (int i = 1; i <= columnCount; i++)
 				{
+					if(rsmd.getColumnName(i).equals("resume") || rsmd.getColumnName(i).equals("password"))
+						continue;
 					studentDetails.add(rsmd.getColumnName(i));
 					studentDetails.add(rs.getString(i));
 				}
