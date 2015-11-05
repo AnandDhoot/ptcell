@@ -1,15 +1,22 @@
 package details;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.List;
 
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.*;
 import database.Student;
 
 /**
@@ -50,11 +57,10 @@ public class StudentDetails extends HttpServlet
 					response);
 			return;}
 		String id = ss.getAttribute("id").toString();
-		String pass = ss.getAttribute("pass").toString();
 		String type = request.getParameter("type");
 		String app=request.getAttribute("approved").toString();
 		String option = request.getParameter("option");
-
+		System.out.println(option);
 		if (option.equals("Personal Details"))
 		{
 			String details = "<table>";
@@ -64,6 +70,50 @@ public class StudentDetails extends HttpServlet
 						+ "</td></tr>";
 			details += "</table>";
 			request.setAttribute("StudentDetails", details);
+		}
+		else if (option.equals("Resume Upload")){
+			System.out.println("Enter");
+			if(app.equals("0")){
+				request.getRequestDispatcher("student.jsp").forward(request,
+						response);
+				return;}
+			PrintWriter out = response.getWriter();
+			out.print("<html><head><title>Insert title here</title></head>");
+			out.print( "<center><form action='StudentDetails?option=Store+PDF' method='post' enctype='multipart/form-data'>"+
+			"<b>Upload Resume</b>"+
+		       "<input type='file' name='file'/></center>"+
+		      "<center> <input type='submit' /></center></form></html>");
+			return;
+		}
+		else if (option.equals("Store PDF")){
+			System.out.println("Dragon");
+			if(app.equals("0")){
+				request.getRequestDispatcher("student.jsp").forward(request,
+						response);
+				return;}
+		    try
+		    {
+		      List<FileItem> localList = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+		      for (FileItem localFileItem : localList)
+		      {
+		        String str1 = localFileItem.getFieldName();
+		        String str2 = FilenameUtils.getName(localFileItem.getName());
+		        System.out.println("fieldname:" + str1);
+		        System.out.println("filename:" + str2);
+		        ByteArrayOutputStream output = new ByteArrayOutputStream();
+		        IOUtils.copy(localFileItem.getInputStream(), output);
+		        byte[] filecontent = output.toByteArray();
+		        Student.insertPDF(id,filecontent);
+		      }
+
+		    }
+		    catch (FileUploadException localFileUploadException)
+		    {
+		      throw new ServletException("Cannot parse multipart request.", localFileUploadException);
+		    }
+			request.getRequestDispatcher("student.jsp").forward(request,
+					response);
+			
 		}
 		else if (option.equals("Edit Personal Details"))
 		{	

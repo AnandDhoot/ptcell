@@ -10,7 +10,53 @@ import java.util.List;
 
 public class Student
 {
-	// TODO - Add resume to the table
+	// TODO - Add resume column to the table and PDF display options to Coordi,Company,Student
+	public static byte[] getPDF(String rollno){
+		Connection connection = null;
+		byte[] a=new byte[0];
+		try
+		{
+			connection = DbUtils.getConnection();
+		PreparedStatement statement = connection.prepareStatement("select resume from student where rollnumber=?");
+		statement.setString(1, rollno);
+		ResultSet rs= statement.executeQuery();
+
+		while (rs.next()){
+			a=rs.getBytes(1);
+		}
+
+		}
+		catch (SQLException sqle)
+		{
+			System.out.println("SQL exception when storing resume");
+		}
+		finally
+		{
+			DbUtils.closeConnection(connection);
+		}
+		return a;
+		
+	}
+	public static void insertPDF(String rollno,byte[] file){
+		Connection connection = null;
+		try
+		{
+			connection = DbUtils.getConnection();
+		PreparedStatement statement = connection.prepareStatement("update student set resume=? where rollnumber=?");
+		statement.setBytes(1, file);
+		statement.setString(2, rollno);
+		statement.executeUpdate();
+		}
+		catch (SQLException sqle)
+		{
+			System.out.println("SQL exception when storing resume");
+		}
+		finally
+		{
+			DbUtils.closeConnection(connection);
+		}
+		
+	}
 	public static void chgStatus(int status,String rollno){
 		Connection connection = null;
 		try
