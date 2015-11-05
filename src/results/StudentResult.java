@@ -11,7 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sun.org.apache.xml.internal.serializer.utils.Utils;
+
 import database.JAF;
+import ui.HTMLHeaderUtils;
 
 /**
  * Servlet implementation class StudentResult
@@ -46,12 +49,23 @@ public class StudentResult extends HttpServlet
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException
 	{
+		HttpSession ss = ((HttpServletRequest) request).getSession(false);
+		
 		PrintWriter out = response.getWriter();
-		out.print("<html><head><title>Insert title here</title></head>");
-		out.print("<body><center><h3>");
+		out.print("<html>");
+		out.print(HTMLHeaderUtils.getGenericHeader("Student Result"));
+		
+		out.print("<body>");
+		out.print(HTMLHeaderUtils.getTopNavBar(ss.getAttribute("entity").toString()));
+		out.print("<div class='row'>");
+//		out.print("<div class='col s2'> <ul class='side-nav fixed'>"
+//					+ "<li><a href='#!'>First Sidebar Link</a></li>"
+//					+ "<li><a href='#!'>Second Sidebar Link</a></li>"
+//					+ "</ul></div>"); 
+		out.print("<div class='col s6 offset-s3'>");
+		out.print("<center><h3>");
 		out.print(request.getParameter("option"));
 		out.println("</h3><p>");
-		HttpSession ss = ((HttpServletRequest) request).getSession(false);
 		String id = ss.getAttribute("id").toString();
 		String option = request.getParameter("option");
 		String app=request.getAttribute("approved").toString();
@@ -164,6 +178,6 @@ public class StudentResult extends HttpServlet
 		{
 			out.print("Option not supported");
 		}
-		out.println("</p></center></body></html>");
+		out.println("</p></center></div></div></body></html>");
 	}
 }

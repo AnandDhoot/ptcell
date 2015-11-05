@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<a href="/ptcell/CompanyDetails?option=Create+JAF">Create a JAF</a>
+<a href="/ptcell/company_result.jsp?option=Create+JAF">Create a JAF</a>
 </body>
 </html>

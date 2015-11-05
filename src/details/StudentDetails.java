@@ -64,7 +64,9 @@ public class StudentDetails extends HttpServlet
 		System.out.println(option);
 		if (option.equals("Personal Details"))
 		{
-			String details = "<table>";
+			String details = "<table class='striped'>";
+			details += "<thead><tr><th>Attribute</th><th>Description</th></tr></thead>\n";
+			details += "<tbody>";
 			List<String> studentDetails = Student.getStudentDetails(id);
 			for (int i = 0; i < studentDetails.size() / 2; i++)
 			{
@@ -72,7 +74,7 @@ public class StudentDetails extends HttpServlet
 						+ "</td></tr>";
 			}
 			details += "<tr><td>Result</td><td>" + "<a href='/ptcell/StudentResume'>Download Resume</a>" + "</td></tr>";
-			details += "</table>";
+			details += "</tbody></table>";
 			request.setAttribute("StudentDetails", details);
 		}
 		else if (option.equals("Resume Upload"))

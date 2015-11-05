@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<a href="/ptcell/CoordinatorDetails?option=Verify+Students">Verify Students</a>
-<a href="/ptcell/CoordinatorDetails?option=Verify+JAFs">Verify JAFs</a>
+<a href="/ptcell/coordinator_result.jsp?option=Verify+Students">Verify Students</a>
+<a href="/ptcell/coordinator_result.jsp?option=Verify+JAFs">Verify JAFs</a>
 </body>
 </html>
