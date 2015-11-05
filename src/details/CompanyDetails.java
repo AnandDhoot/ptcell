@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import database.Coordi;
 import database.JAF;
 
 /**
@@ -80,6 +82,67 @@ public class CompanyDetails extends HttpServlet
 					+ "<input type='text' name='profile' value='Tech' /> Profile <br>"
 					+ "<input type='submit' value='Verify' />" + "</form>";
 			out.println(details);
+		}
+		else if(option.equals("JAFDetails")){
+		String companyID = id;
+		int JAFNumber = Integer.parseInt(request.getParameter("jafNum").toString());
+
+		String details = "<table>";
+		List<String> JAFDetails = JAF.getJAFDetails(companyID, JAFNumber);
+		for (int i = 0; i < JAFDetails.size() / 2; i++)
+			details += "<tr><td>" + JAFDetails.get(i * 2) + "</td><td>" + JAFDetails.get(i * 2 + 1) + "</td></tr>";
+		details += "</table>";
+		details += "<form action='CompanyDetails' method='post'>"
+				+ "<input type='text' name='option' value='SelectStu' hidden/>"
+				+ "<input type='text' name='jafNum' value='" + JAFNumber + "' hidden/>"
+				+ "<input type='submit' value='Select Students' />" + "</form>";
+		out.print(details);
+		}
+		else if(option.equals("SelectStu")){
+			//TODO Print Students applies for this
+			// Make links to view profile,resume of each
+			//Make checkboxws to select them to update stage
+			//Make a text box to enter stage # students are selected for
+			//Make fxn that called on list of students updates their stage in applies table
+			//TODO Advanced Ensure only unplaced students are selectable
+		}
+		else if(option.equals("View JAFs")){
+			List<String> StuList = Coordi.getcJAFs(id);
+			int i = 0;
+
+			if (StuList.size() > 0)
+			{
+				out.print("<table>");
+				out.print("<tr>");
+				out.print("<th>Name</th>");
+				out.print("<th>JAF No.</th>");
+				out.print("<th>Stage</th>");
+				out.print("<th>Company Name</th>");
+				out.print("<th>View Details & Select Students</th>");
+				out.print("</tr>");
+			}
+
+			while (i < StuList.size() / 5)
+			{
+				out.print("<tr><td>");
+				out.print(StuList.get(i * 5));
+				out.print("</td><td>");
+				out.print(StuList.get(i * 5 + 1));
+				out.print("</td><td>");
+				out.print(StuList.get(i * 5 + 2));
+				out.print("</td><td>");
+				out.print(StuList.get(i * 5 + 3));
+				out.print("</td><td>");
+				out.println("<form action='CompanyDetails' method='post'>"
+						+ "<input type='text' name='option' value='JAFDetails' hidden/>"
+						+ "<input type='text' name='jafNum' value='" + StuList.get(i * 5 + 1) + "' hidden/>"
+						+ "<input type='submit' value='View Details & Select Students' />" + "</form>");
+				out.print("</td></tr>");
+				i++;
+			}
+
+			if (StuList.size() > 0)
+				out.print("</table>");
 		}
 		else if (option.equals("Submit New JAF"))
 		{

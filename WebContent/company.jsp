@@ -8,5 +8,6 @@
 </head>
 <body>
 <a href="/ptcell/CompanyDetails?option=Create+JAF">Create a JAF</a>
+<a href="/ptcell/CompanyDetails?option=View+JAFs">View Open JAFs</a>
 </body>
 </html>
