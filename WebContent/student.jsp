@@ -7,27 +7,23 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="StudentDetails" method="post">
-<input type="text" name="type" value='<%=request.getAttribute("type") %>' readonly hidden />
 <% 
 	String approved = request.getAttribute("approved").toString();
 	if (approved.equals("0"))
 	  	{
 %>
-			<input type="radio" name="option" value="Edit Personal Details" />Edit Personal Details<br>
+			<a href="/ptcell/StudentDetails?option=Edit+Personal+Details">Edit Personal Details</a>
 <% 		}
   	else
   	{
 %>			
-
-			<input type="radio" name="option" value="Personal Details" />View Personal Details<br>
-			<input type="radio" name="option" value="Signed JAFs" />See signed JAFs<br>
-			<input type="radio" name="option" value="Open JAFs" />See Open JAFs<br>
+			
+<a href="/ptcell/StudentDetails?option=Personal+Details">Personal Details</a>
+<a href="/ptcell/StudentDetails?option=Signed+JAFs">See signed JAFs</a>
+<a href="/ptcell/StudentDetails?option=Open+JAFs">See Open JAFs</a>			
 <%
 	}
 %>
 <br>
-<input type="submit" value="Submit" />
-</form>
 </body>
 </html>
