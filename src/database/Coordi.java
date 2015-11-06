@@ -9,6 +9,38 @@ import java.util.List;
 
 public class Coordi
 {
+	public static List<String> getcStudents(String cid,String jafNum)
+	{
+		List<String> signedJAFs = new ArrayList<String>();
+		Connection connection = null;
+		try
+		{
+			connection = DbUtils.getConnection();
+			PreparedStatement pstmt = connection.prepareStatement(
+					"select rollnumber,name,department,cpi "
+							+ "from student natural join application "
+							+ "where companyid =? and jafnumber=?");
+			pstmt.setString(1, cid);
+			pstmt.setInt(2, Integer.parseInt(jafNum));
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				signedJAFs.add(rs.getString(1));
+				signedJAFs.add(rs.getString(2));
+				signedJAFs.add(rs.getString(3));
+				signedJAFs.add(rs.getString(4));
+			}
+		}
+		catch (SQLException sqle)
+		{
+			System.out.println("SQL exception when getting company's students");
+		}
+		finally
+		{
+			DbUtils.closeConnection(connection);
+		}
+		return signedJAFs;
+	}
 	public static List<String> getStudents(String id)
 	{
 		List<String> signedJAFs = new ArrayList<String>();
