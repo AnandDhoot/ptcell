@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.sun.org.apache.xml.internal.serializer.utils.Utils;
 
 import database.JAF;
+import database.Student;
 import ui.HTMLHeaderUtils;
 
 /**
@@ -168,11 +169,26 @@ public class StudentResult extends HttpServlet
 						+ JAFList.get(i * 6 + 2) + "' hidden/>"
 						+ "<input type='submit' value='View Details' />"
 						+ "</form>");
+				out.println("<form action='StudentResult' method='post'>"
+						+ "<input type='text' name='option' value='SignJAF' hidden/>"
+						+ "<input type='text' name='CompID' value='"
+						+ JAFList.get(i * 6 + 5) + "' hidden/>"
+						+ "<input type='text' name='jafNum' value='"
+						+ JAFList.get(i * 6 + 2) + "' hidden/>"
+						+ "<input type='submit' value='Sign JAF' />"
+						+ "</form>");
 				i++;
 			}
 
 			if (JAFList.size() > 0)
 				out.print("</table>");
+		}
+		else if(option.equals("SignJAF")){
+			
+			String cid=request.getParameter("CompID");
+			String jnum= request.getParameter("jafNum");
+			Student.applyJAF(id, cid, jnum);
+			request.getRequestDispatcher("student.jsp").forward(request, response);
 		}
 		else
 		{

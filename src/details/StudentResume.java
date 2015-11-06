@@ -38,7 +38,7 @@ public class StudentResume extends HttpServlet
 	{
 		HttpSession ss = ((HttpServletRequest) request).getSession(false);
 		String id = ss.getAttribute("id").toString();
-		if(ss.getAttribute("entity").equals("Coordinator"))
+		if(!ss.getAttribute("entity").equals("Student"))
 			id = request.getParameter("rollno");
 		
 		byte resume[] = Student.getPDF(id);
