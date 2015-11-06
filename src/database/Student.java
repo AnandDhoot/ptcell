@@ -83,6 +83,28 @@ public class Student
 	
 	
 }
+	public static void applyJAF(String roll,String cid,String jafNum){
+		Connection connection = null;
+		try
+		{  
+			connection = DbUtils.getConnection();
+			PreparedStatement pstmt = connection.prepareStatement(
+					"insert into application values ( '"
+							+roll+"',"+jafNum+",'"+cid+"',0,now())");
+			pstmt.executeUpdate();
+		
+		}
+		catch (SQLException sqle)
+		{
+			System.out.println("SQL exception when applying to JAF");
+		}
+		finally
+		{
+			DbUtils.closeConnection(connection);
+		}
+	
+	
+}
 	public static void chgStatus(int status,String rollno){
 		Connection connection = null;
 		try
