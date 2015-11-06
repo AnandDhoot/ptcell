@@ -28,10 +28,7 @@
 	if (option.equals("Create JAF"))
 	{
 		String details = "";
-		details += "<form action='company_result.jsp' method='post'>"
-				+ "<input type='text' name='option' value='Submit New JAF' hidden/>"
-				+ "<input type='text' name='id' value='" + id + "' hidden/>"
-				+ "<input type='text' name='pass' value='" + pass + "' hidden/>"
+		details += "<form action='company_result.jsp?option=Submit+New+JAF' method='post'>"
 				+ "<input type='datetime-local' name='endDate' value='2015-12-31T23:59' /> JAF End Date <br>"
 				+ "<input type='number' step='0.01' name='cpiCutoff' value='7.00' /> CPI Cutoff <br> "
 				+ "Select Eligible Departments <br>"
@@ -56,19 +53,59 @@
 	for (int i = 0; i < JAFDetails.size() / 2; i++)
 		details += "<tr><td>" + JAFDetails.get(i * 2) + "</td><td>" + JAFDetails.get(i * 2 + 1) + "</td></tr>";
 	details += "</table>";
-	details += "<form action='company_result.jsp' method='post'>"
-			+ "<input type='text' name='option' value='SelectStu' hidden/>"
+	details += "<form action='company_result.jsp?option=SelectStu' method='post'>"
 			+ "<input type='text' name='jafNum' value='" + JAFNumber + "' hidden/>"
 			+ "<input type='submit' value='Select Students' />" + "</form>";
 	out.print(details);
 	}
 	else if(option.equals("SelectStu")){
-		//TODO Print Students applies for this
-		// Make links to view profile,resume of each
-		//Make checkboxws to select them to update stage
+		// TODO
+		// Make links to view profile
+		//Make checkboxes to select them to update stage
 		//Make a text box to enter stage # students are selected for
-		//Make fxn that called on list of students updates their stage in applies table
+		//DONE - FXN that updates application table status
 		//TODO Advanced Ensure only unplaced students are selectable
+			
+				List<String> StuList = Coordi.getcStudents(id,request.getParameter("jafNum"));
+			int i = 0;
+
+			if (StuList.size() > 0)
+			{	out.print("<script src='http://www.kryogenix.org/code/browser/sorttable/sorttable.js'></script>");
+				out.print("<table class='sortable'>");
+				out.print("<tr>");
+				out.print("<th>Roll No.</th>");
+				out.print("<th>Name</th>");
+				out.print("<th>Department</th>");
+				out.print("<th>CPI</th>");
+				out.print("<th>Profile</th>");
+				out.print("<th>See Resume</th>");
+				out.print("</tr>");
+			}
+
+			while (i < StuList.size() / 4)
+			{
+				out.print("<tr><td>");
+				out.print(StuList.get(i * 4));
+				out.print("</td><td>");
+				out.print(StuList.get(i * 4 + 1));
+				out.print("</td><td>");
+				out.print(StuList.get(i * 4 + 2));
+				out.print("</td><td>");
+				out.print(StuList.get(i * 4 + 3));
+				out.print("</td><td>");
+				out.println("<form action='coordinator_result.jsp?option=StudDetails' method='post'>"
+						+ "<input type='text' name='rollno' value='" + StuList.get(i * 4) + "' hidden/>"
+						+ "<input type='submit' value='View Details' />" + "</form>");
+				out.print("</td><td>");
+				out.println("<form action='StudentResume' method='post'>"
+						+ "<input type='text' name='rollno' value='" + StuList.get(i * 4) + "' hidden/>"
+						+ "<input type='submit' value='View Resume' />" + "</form>");
+				out.print("</td></tr>");
+				i++;
+			}
+
+			if (StuList.size() > 0)
+				out.print("</table>");
 	}
 	else if(option.equals("View JAFs")){
 		List<String> StuList = Coordi.getcJAFs(id);
@@ -97,8 +134,7 @@
 			out.print("</td><td>");
 			out.print(StuList.get(i * 5 + 3));
 			out.print("</td><td>");
-			out.println("<form action='company_result.jsp' method='post'>"
-					+ "<input type='text' name='option' value='JAFDetails' hidden/>"
+			out.println("<form action='company_result.jsp?option=JAFDetails' method='post'>"
 					+ "<input type='text' name='jafNum' value='" + StuList.get(i * 5 + 1) + "' hidden/>"
 					+ "<input type='submit' value='View Details & Select Students' />" + "</form>");
 			out.print("</td></tr>");

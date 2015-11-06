@@ -57,6 +57,32 @@ public class Student
 		}
 		
 	}
+	public static void chgAStatus(int status,String rollno,String cid,String jafNum){
+		Connection connection = null;
+		try
+		{
+			connection = DbUtils.getConnection();
+			PreparedStatement pstmt = connection.prepareStatement(
+					"update application set status=? "
+							+ "where rollnumber=? and companyid=? and jafnumber=?");
+			pstmt.setInt(1, status);
+			pstmt.setString(2, rollno);
+			pstmt.setString(3, cid);
+			pstmt.setString(4, jafNum);
+			pstmt.executeUpdate();
+		
+		}
+		catch (SQLException sqle)
+		{
+			System.out.println("SQL exception when getting chaging  Application Status");
+		}
+		finally
+		{
+			DbUtils.closeConnection(connection);
+		}
+	
+	
+}
 	public static void chgStatus(int status,String rollno){
 		Connection connection = null;
 		try
