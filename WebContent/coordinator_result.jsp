@@ -201,8 +201,8 @@
 									<input type='text' name='option' value='JAF Details' hidden/>
 									<input type='text' name='CompID' value='<%=StuList.get(i * 5 + 4)%>' hidden/>
 									<input type='text' name='jafNum' value='<%=StuList.get(i * 5 + 1)%>' hidden/>
-									<button class='btn waves-effect waves-light grey lighten-1' type='submit' name='action'>
-										<span class="black-text text-darken-2"><b>View Details & Verify</b></span>
+									<button class='btn waves-effect waves-light' type='submit' name='action'>
+										<span class="black-text text-darken-2">View Details & Verify</span>
 									</button>
 								</form>
 							</td>

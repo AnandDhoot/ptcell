@@ -12,9 +12,8 @@
 %>
 <div class='row' style='height:100%'>
 	<%=HTMLHeaderUtils.getGenericSidebar(request.getSession(false).getAttribute("entity").toString(), request.getSession(false).getAttribute("name").toString())%>
-	<div class='col s8 offset-s0'>
+	<div class='col s8 offset-s0' style="text-align:center">
 		<br><br>
-		<center>
 		<div class="col s4 offset-s2 card blue darken-3">
 			<div class="card-content white-text">
 				<span class="card-title"><b>Students</b></span>
@@ -41,8 +40,6 @@
 					<b>Verify JAFs</b>
 				</a>
 			</div>	
-		</div>
-		</center>
 	</div>
 </div>
 </body>

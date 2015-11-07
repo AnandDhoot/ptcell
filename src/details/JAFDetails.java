@@ -47,21 +47,21 @@ public class JAFDetails extends HttpServlet
 	{
 		String option = request.getParameter("option");
 
-		if (option.equals("JAFDetails"))
+		if (option.equals("JAF Details"))
 		{
 			String companyID = request.getParameter("CompID").toString();
 			int JAFNumber = Integer
 					.parseInt(request.getParameter("jafNum").toString());
-			
-			String details = "<table>";
+			String details = "<table class='centered striped responsive-table sortable'>";
+			details += "<thead><tr><th>Attribute</th><th>Value</th></tr></thead><tbody>";
 			List<String> JAFDetails = JAF.getJAFDetails(companyID, JAFNumber);
 			for (int i = 0; i < JAFDetails.size() / 2; i++)
 				details += "<tr><td>" + JAFDetails.get(i * 2) + "</td><td>"
 						+ JAFDetails.get(i * 2 + 1) + "</td></tr>";
-			details += "</table>";
-			request.setAttribute("JAFDetails", details);
+			details += "</tbody></table>";
+			request.setAttribute("JAF Details", details);
 		}
-		request.getRequestDispatcher("JAFResult").forward(request, response);
+		request.getRequestDispatcher("jaf_result.jsp").forward(request, response);
 	}
 
 }

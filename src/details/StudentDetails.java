@@ -64,7 +64,7 @@ public class StudentDetails extends HttpServlet
 		System.out.println(option);
 		if (option.equals("Personal Details"))
 		{
-			String details = "<table class='striped'>";
+			String details = "<table class='centered striped responsive-table sortable'>";
 			details += "<thead><tr><th>Attribute</th><th>Description</th></tr></thead>\n";
 			details += "<tbody>";
 			List<String> studentDetails = Student.getStudentDetails(id);
@@ -73,7 +73,7 @@ public class StudentDetails extends HttpServlet
 				details += "<tr><td>" + studentDetails.get(i * 2) + "</td><td>" + studentDetails.get(i * 2 + 1)
 						+ "</td></tr>";
 			}
-			details += "<tr><td>Result</td><td>" + "<a href='/ptcell/StudentResume'>Download Resume</a>" + "</td></tr>";
+			details += "<tr><td>Resume</td><td>" + "<a href='/ptcell/StudentResume'>Download Resume</a>" + "</td></tr>";
 			details += "</tbody></table>";
 			request.setAttribute("StudentDetails", details);
 		}
@@ -95,7 +95,6 @@ public class StudentDetails extends HttpServlet
 		}
 		else if (option.equals("Store PDF"))
 		{
-			System.out.println("Dragon");
 			if (app.equals("0"))
 			{
 				request.getRequestDispatcher("student.jsp").forward(request, response);
@@ -122,7 +121,7 @@ public class StudentDetails extends HttpServlet
 				throw new ServletException("Cannot parse multipart request.", localFileUploadException);
 			}
 			request.getRequestDispatcher("student.jsp").forward(request, response);
-
+			return;
 		}
 		else if (option.equals("Edit Personal Details"))
 		{
@@ -170,7 +169,7 @@ public class StudentDetails extends HttpServlet
 			request.getRequestDispatcher("student.jsp").forward(request, response);
 			return;
 		}
-		request.getRequestDispatcher("StudentResult").forward(request, response);
+		request.getRequestDispatcher("student_result.jsp").forward(request, response);
 	}
 
 }

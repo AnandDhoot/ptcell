@@ -39,7 +39,6 @@ public class AuthRedirect extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-
 		String type = (String) request.getAttribute("type");
 		HttpSession ss=request.getSession(true);
 		ss.setAttribute("id", request.getParameter("id"));
