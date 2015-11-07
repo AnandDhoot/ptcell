@@ -59,6 +59,7 @@ public class Student
 	}
 	public static void chgAStatus(int status,String rollno,String cid,String jafNum){
 		Connection connection = null;
+		
 		try
 		{
 			connection = DbUtils.getConnection();
@@ -68,13 +69,24 @@ public class Student
 			pstmt.setInt(1, status);
 			pstmt.setString(2, rollno);
 			pstmt.setString(3, cid);
-			pstmt.setString(4, jafNum);
+			pstmt.setInt(4,Integer.parseInt(jafNum));
 			pstmt.executeUpdate();
+		//	System.out.println(pstmt.toString());
+			if(status == 4){
+				pstmt = connection.prepareStatement(
+							"update application set status=-2 "
+								+ "where rollnumber=? and companyid<>? and jafnumber=?");
+				pstmt.setString(1, rollno);
+				pstmt.setString(2, cid);
+				pstmt.setInt(3,Integer.parseInt(jafNum));
+				//System.out.println(pstmt.toString());
+				pstmt.executeUpdate();
+			}
 		
 		}
 		catch (SQLException sqle)
 		{
-			System.out.println("SQL exception when getting chaging  Application Status");
+			System.out.println("SQL exception when getting changing  Application Status");
 		}
 		finally
 		{

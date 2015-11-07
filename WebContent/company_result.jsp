@@ -68,7 +68,7 @@
 			
 				List<String> StuList = Coordi.getcStudents(id,request.getParameter("jafNum"));
 			int i = 0;
-
+			out.print("<form action = 'company_result.jsp?option=StudSelected' method = 'post'>");
 			if (StuList.size() > 0)
 			{	out.print("<script src='http://www.kryogenix.org/code/browser/sorttable/sorttable.js'></script>");
 				out.print("<table class='sortable'>");
@@ -84,28 +84,60 @@
 
 			while (i < StuList.size() / 4)
 			{
-				out.print("<tr><td>");
-				out.print(StuList.get(i * 4));
-				out.print("</td><td>");
-				out.print(StuList.get(i * 4 + 1));
-				out.print("</td><td>");
-				out.print(StuList.get(i * 4 + 2));
-				out.print("</td><td>");
-				out.print(StuList.get(i * 4 + 3));
-				out.print("</td><td>");
-				out.println("<form action='coordinator_result.jsp?option=StudDetails' method='post'>"
-						+ "<input type='text' name='rollno' value='" + StuList.get(i * 4) + "' hidden/>"
-						+ "<input type='submit' value='View Details' />" + "</form>");
-				out.print("</td><td>");
-				out.println("<form action='StudentResume' method='post'>"
-						+ "<input type='text' name='rollno' value='" + StuList.get(i * 4) + "' hidden/>"
-						+ "<input type='submit' value='View Resume' />" + "</form>");
-				out.print("</td></tr>");
-				i++;
+				int stage = applies.getLevel(request.getParameter("jafNum"), id, StuList.get(i*4));
+				//System.out.println(stage);
+				if(stage != -2){
+					out.print("<tr><td>");
+					out.print(StuList.get(i * 4));
+					out.print("</td><td>");
+					out.print(StuList.get(i * 4 + 1));
+					out.print("</td><td>");
+					out.print(StuList.get(i * 4 + 2));
+					out.print("</td><td>");
+					out.print(StuList.get(i * 4 + 3));
+					out.print("</td><td>");
+					out.println("<form action='coordinator_result.jsp?option=StudDetails' method='post'>"
+							+ "<input type='text' name='rollno' value='" + StuList.get(i * 4) + "' hidden/>"
+							+ "<input type='submit' value='View Details' />" + "</form>");
+					out.print("</td><td>");
+					out.println("<form action='StudentResume' method='post'>"
+							+ "<input type='text' name='rollno' value='" + StuList.get(i * 4) + "' hidden/>"
+							+ "<input type='submit' value='View Resume' />" + "</form>");
+					out.print("</td><td>");
+					out.println("<input type='checkbox' name='deptEligible' value='" + StuList.get(i*4) + "'> " + 
+					"<input type='text' name='jafNum' value='" + request.getParameter("jafNum") + "' hidden/>");
+					
+					
+					out.print("</td></tr>");
+				}
+					i++;
+				
 			}
+			
+			out.print("<input type=\"submit\" value=\"Select\">");
+			out.println("<input type='number' name='stage' value='2' /> Describe JAF <br>");
+			out.print("</form>");
 
 			if (StuList.size() > 0)
 				out.print("</table>");
+			
+	}
+	else if(option.equals("StudSelected")){
+		String deptEligible[] = request.getParameterValues("deptEligible");	
+		
+		int status = Integer.parseInt(request.getParameter("stage"));
+
+		String JAFNumber = (request.getParameter("jafNum").toString());
+		
+		int jafno = Integer.parseInt(JAFNumber);
+
+		for(int i=0; i<deptEligible.length; i++){
+			Student.chgAStatus(status, deptEligible[i] , id , JAFNumber);
+			JAF.chgJAFStage(status, jafno, id);
+		}
+		
+		response.sendRedirect("company.jsp");
+		
 	}
 	else if(option.equals("View JAFs")){
 		List<String> StuList = Coordi.getcJAFs(id);
