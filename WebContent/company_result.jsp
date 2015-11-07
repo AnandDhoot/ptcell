@@ -101,13 +101,16 @@
 						+ "<input type='text' name='rollno' value='" + StuList.get(i * 4) + "' hidden/>"
 						+ "<input type='submit' value='View Resume' />" + "</form>");
 				out.print("</td><td>");
-				out.println("<input type='checkbox' name='deptEligible' value='" + StuList.get(i*4) + "'> <br>" + 
+				out.println("<input type='checkbox' name='deptEligible' value='" + StuList.get(i*4) + "'> " + 
 				"<input type='text' name='jafNum' value='" + request.getParameter("jafNum") + "' hidden/>");
+				
+				
 				out.print("</td></tr>");
 				i++;
 			}
 			
 			out.print("<input type=\"submit\" value=\"Select\">");
+			out.println("<input type='number' name='stage' value='2' /> Describe JAF <br>");
 			out.print("</form>");
 
 			if (StuList.size() > 0)
@@ -116,6 +119,8 @@
 	}
 	else if(option.equals("StudSelected")){
 		String deptEligible[] = request.getParameterValues("deptEligible");	
+		
+		int status = Integer.parseInt(request.getParameter("stage"));
 
 		String JAFNumber = (request.getParameter("jafNum").toString());
 
@@ -123,7 +128,7 @@
 			Student.chgAStatus(2, deptEligible[i] , id , JAFNumber);
 		}
 		
-		response.sendRedirect("index.html");
+		response.sendRedirect("company.jsp");
 		
 	}
 	else if(option.equals("View JAFs")){

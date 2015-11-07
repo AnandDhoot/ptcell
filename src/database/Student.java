@@ -63,10 +63,6 @@ public class Student
 		try
 		{
 			connection = DbUtils.getConnection();
-			System.out.println(jafNum);
-			System.out.println(status);
-			System.out.println(rollno);
-			System.out.println(cid);
 			PreparedStatement pstmt = connection.prepareStatement(
 					"update application set status=? "
 							+ "where rollnumber=? and companyid=? and jafnumber=?");
@@ -79,11 +75,6 @@ public class Student
 		}
 		catch (SQLException sqle)
 		{
-			System.out.println("Inside catch");
-			System.out.print(jafNum);
-			System.out.print(status);
-			System.out.print(rollno);
-			System.out.print(cid);
 			System.out.println("SQL exception when getting changing  Application Status");
 		}
 		finally
