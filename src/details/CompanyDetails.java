@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import database.Coordi;
 import database.JAF;
+import database.applies;
 
 /**
  * Servlet implementation class CompanyDetails
@@ -86,7 +87,6 @@ public class CompanyDetails extends HttpServlet
 		else if(option.equals("JAFDetails")){
 		String companyID = id;
 		int JAFNumber = Integer.parseInt(request.getParameter("jafNum").toString());
-
 		String details = "<table>";
 		List<String> JAFDetails = JAF.getJAFDetails(companyID, JAFNumber);
 		for (int i = 0; i < JAFDetails.size() / 2; i++)
@@ -100,11 +100,45 @@ public class CompanyDetails extends HttpServlet
 		}
 		else if(option.equals("SelectStu")){
 			//TODO Print Students applies for this
+			/*Applies => 
+			1 == Applied to JAF
+			2 == Shortlisted for test
+			3 == Shortlisted for interview
+			4 == Selected
+			-1 == Rejected by company
+			-2 == Rejected becouse of selection in another JAF
+			<form action="">
+			<input type="checkbox" name="vehicle" value="Bike">I have a bike<br>
+			<input type="checkbox" name="vehicle" value="Car">I have a car 
+			</form>
+			*/
+			
+			List<String> appliedStudentList = applies.getStudents() ;
+			String details = "<table>";
+			for (int i = 0; i < appliedStudentList.size() /3 ; i++)
+				details += "<tr><td>" + appliedStudentList.get(i * 3) + "</td><td>" + appliedStudentList.get(i * 3 + 1) + "</td></tr>" + appliedStudentList.get(i * 3 + 2) + "</td></tr>";
+			out.print(details);
+			details += "<" + "/" + "table>";
+			
 			// Make links to view profile,resume of each
-			//Make checkboxws to select them to update stage
+			
+			//Make checkboxes to select them to update stage
+			String checkbox  = "<form action=" + "\"" + "\"" + ">"; 
+			for(int i=0; i<appliedStudentList.size() / 3; i++ ){
+				checkbox += "<input type=\"checkbox\" name=\"student\" value=\"stud\">" + appliedStudentList.get(i*3) + "<br>";
+			}
+			checkbox += "</form>";
+			out.print(checkbox);
 			//Make a text box to enter stage # students are selected for
-			//Make fxn that called on list of students updates their stage in applies table
+			/*<form action="demo_form.asp">
+			First name: <input type="text" name="FirstName" value="Mickey"><br>
+			Last name: <input type="text" name="LastName" value="Mouse"><br>
+			<input type="submit" value="Submit">
+			</form>*/
+			
+			//Make fn that called on list of students updates their stage in applies table
 			//TODO Advanced Ensure only unplaced students are selectable
+			
 		}
 		else if(option.equals("View JAFs")){
 			List<String> StuList = Coordi.getcJAFs(id);
