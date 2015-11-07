@@ -75,7 +75,7 @@ public class Student
 			if(status == 4){
 				pstmt = connection.prepareStatement(
 							"update application set status=-2 "
-								+ "where rollnumber=? and companyid<>? and jafnumber=?");
+								+ "where rollnumber=? and companyid<>?");
 				pstmt.setString(1, rollno);
 				pstmt.setString(2, cid);
 				pstmt.setInt(3,Integer.parseInt(jafNum));
