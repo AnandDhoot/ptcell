@@ -112,6 +112,7 @@ public class CompanyDetails extends HttpServlet
 			<input type="checkbox" name="vehicle" value="Car">I have a car 
 			</form>
 			*/
+			System.out.println("Inside selectstu");
 			
 			List<String> appliedStudentList = applies.getStudents() ;
 			String details = "<table>";

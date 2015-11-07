@@ -68,7 +68,7 @@
 			
 				List<String> StuList = Coordi.getcStudents(id,request.getParameter("jafNum"));
 			int i = 0;
-
+			out.print("<form action = 'company_result.jsp?option=StudSelected' method = 'post'>");
 			if (StuList.size() > 0)
 			{	out.print("<script src='http://www.kryogenix.org/code/browser/sorttable/sorttable.js'></script>");
 				out.print("<table class='sortable'>");
@@ -100,12 +100,31 @@
 				out.println("<form action='StudentResume' method='post'>"
 						+ "<input type='text' name='rollno' value='" + StuList.get(i * 4) + "' hidden/>"
 						+ "<input type='submit' value='View Resume' />" + "</form>");
+				out.print("</td><td>");
+				out.println("<input type='checkbox' name='deptEligible' value='" + StuList.get(i*4) + "'> <br>" + 
+				"<input type='text' name='jafNum' value='" + request.getParameter("jafNum") + "' hidden/>");
 				out.print("</td></tr>");
 				i++;
 			}
+			
+			out.print("<input type=\"submit\" value=\"Select\">");
+			out.print("</form>");
 
 			if (StuList.size() > 0)
 				out.print("</table>");
+			
+	}
+	else if(option.equals("StudSelected")){
+		String deptEligible[] = request.getParameterValues("deptEligible");	
+
+		String JAFNumber = (request.getParameter("jafNum").toString());
+
+		for(int i=0; i<deptEligible.length; i++){
+			Student.chgAStatus(2, deptEligible[i] , id , JAFNumber);
+		}
+		
+		response.sendRedirect("index.html");
+		
 	}
 	else if(option.equals("View JAFs")){
 		List<String> StuList = Coordi.getcJAFs(id);
