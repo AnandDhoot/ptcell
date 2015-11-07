@@ -1,20 +1,47 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>
-		Login Page
-	</title>
-</head>
+	<head>
+	<title>Login Page</title>
+		<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css'>
+		<link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
+		<link rel='stylesheet' href='css/custom.css'>
+	</head>
 <body>
-	<br><br>
-	<form action="AuthRedirect" method="post">
-		Enter Username: 
-		<input type="text" name="id" placeholder="Username"></input><br><br>
-		Enter Password:
-		<input type="password" name="pass" placeholder="Password"></input><br><br>
-		<br>
-		<input type="submit" value="Submit"></input>
-	</form>
+		<script src='js/sorttable.js'></script>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+	 
+	 <br><br><br>
+	 <div class="row">
+	 <div class="card indigo darken-3 col s4 offset-s4">
+	 	<br><br>
+	 
+	    <form class="col s12" action="AuthRedirect" method="post">
+	      <div class="row">
+	        <div class="input-field col s12">
+	       	  <i class="material-icons prefix">account_circle</i>
+	          <input placeholder="Username" id="username" type="text" name="id" class="validate">
+	          <label for="username">User Name</label>
+	        </div>
+	        <div class="input-field col s12">
+	          <i class="material-icons prefix">vpn_key</i>
+	          <input placeholder="password" id="password" type="password" name="pass" class="validate">
+	          <label for="password">Password</label>
+	        </div>
+	      </div>
+	      <div class="card-action indigo" style="text-align: center">
+	      	<button class='btn waves-effect waves-light' type='submit' name='action'>Submit<i class="material-icons right">send</i></button>
+           </div>
+	    </form>
+	    
+	    
+           
+    </div>
+	    
+	    
+	  </div>
+			
+			
+			
 </body>
 </html>
