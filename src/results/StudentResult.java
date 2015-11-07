@@ -51,7 +51,6 @@ public class StudentResult extends HttpServlet
 			HttpServletResponse response) throws ServletException, IOException
 	{
 		HttpSession ss = ((HttpServletRequest) request).getSession(false);
-		
 		PrintWriter out = response.getWriter();
 		out.print("<html>");
 		out.print(HTMLHeaderUtils.getGenericHeader("Student Result"));

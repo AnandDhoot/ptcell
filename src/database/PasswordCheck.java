@@ -17,13 +17,14 @@ public class PasswordCheck
 		{
 			connection = DbUtils.getConnection();
 			PreparedStatement pstmt = connection
-					.prepareStatement("select password, approved from student where rollnumber=?");
+					.prepareStatement("select password, approved, name from student where rollnumber=?");
 			pstmt.setString(1, id);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				str.add(rs.getString(1));
 				str.add(rs.getString(2));
+				str.add(rs.getString(3));
 			}
 		}
 		catch (SQLException sqle)
@@ -36,20 +37,21 @@ public class PasswordCheck
 		}
 		return str;
 	}
-	public static String getCoordinatorPassword(String id)
+	public static List<String> getCoordinatorPassword(String id)
 	{
-		String str = "";
+		List<String> str = new ArrayList<String>();
 		Connection connection = null;
 		try
 		{
 			connection = DbUtils.getConnection();
 			PreparedStatement pstmt = connection
-					.prepareStatement("select password from coordinator where coordinatorid=?");
+					.prepareStatement("select password, name from coordinator where coordinatorid=?");
 			pstmt.setString(1, id);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				str = rs.getString(1);
+				str.add(rs.getString(1));
+				str.add(rs.getString(2));
 			}
 		}
 		catch (SQLException sqle)
@@ -63,20 +65,21 @@ public class PasswordCheck
 
 		return str;
 	}
-	public static String getCompanyPassword(String id)
+	public static List<String> getCompanyPassword(String id)
 	{
-		String str = "";
+		List<String> str = new ArrayList<String>();
 		Connection connection = null;
 		try
 		{
 			connection = DbUtils.getConnection();
 			PreparedStatement pstmt = connection
-					.prepareStatement("select password from company where companyid=?");
+					.prepareStatement("select password, name from company where companyid=?");
 			pstmt.setString(1, id);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				str = rs.getString(1);
+				str.add(rs.getString(1));
+				str.add(rs.getString(2));
 			}
 
 		}

@@ -22,7 +22,6 @@ import database.PasswordCheck;
 @WebFilter("/AuthFilter")
 public class AuthFilter implements Filter
 {
-
 	/**
 	 * Default constructor.
 	 */
@@ -73,6 +72,7 @@ public class AuthFilter implements Filter
 				password = ss.getAttribute("pass").toString();
 			}
 			String type = "Invalid";
+			String name = "Invalid";
 			if (userid == null || userid.equalsIgnoreCase("") || password == null || password.equalsIgnoreCase(""))
 			{
 				System.out.println("Invalid input");
@@ -90,6 +90,7 @@ public class AuthFilter implements Filter
 					if (pass.equals(password))
 					{
 						type = "Student";
+						name = str.get(2);
 						request.setAttribute("approved", approved);
 						System.out.println("Student Authorized");
 					}
@@ -100,10 +101,12 @@ public class AuthFilter implements Filter
 				}
 				else if (userid.length() == 6)
 				{
-					pass = PasswordCheck.getCoordinatorPassword(userid);
+					str = PasswordCheck.getCoordinatorPassword(userid);
+					pass = str.get(0);
 					if (pass.equals(password))
 					{
 						type = "Coordinator";
+						name = str.get(1);
 						System.out.println("Coordinator Authorized");
 					}
 					else if (!pass.equals(password))
@@ -113,10 +116,12 @@ public class AuthFilter implements Filter
 				}
 				else if (userid.length() == 5)
 				{
-					pass = PasswordCheck.getCompanyPassword(userid);
+					str = PasswordCheck.getCompanyPassword(userid);
+					pass = str.get(0);
 					if (pass.equals(password))
 					{
 						type = "Company";
+						name = str.get(1);
 						System.out.println("Company Authorized");
 					}
 					else if (!pass.equals(password))
@@ -129,7 +134,10 @@ public class AuthFilter implements Filter
 			}
 			request.setAttribute("type", type);
 			if(flag==1)
-			ss.setAttribute("entity", type);
+			{
+				ss.setAttribute("entity", type);
+				ss.setAttribute("name", name);
+			}
 			chain.doFilter(request, response);
 		}
 	}
