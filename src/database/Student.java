@@ -71,6 +71,17 @@ public class Student
 			pstmt.setString(3, cid);
 			pstmt.setInt(4,Integer.parseInt(jafNum));
 			pstmt.executeUpdate();
+		//	System.out.println(pstmt.toString());
+			if(status == 4){
+				pstmt = connection.prepareStatement(
+							"update application set status=-2 "
+								+ "where rollnumber=? and companyid<>? and jafnumber=?");
+				pstmt.setString(1, rollno);
+				pstmt.setString(2, cid);
+				pstmt.setInt(3,Integer.parseInt(jafNum));
+				//System.out.println(pstmt.toString());
+				pstmt.executeUpdate();
+			}
 		
 		}
 		catch (SQLException sqle)

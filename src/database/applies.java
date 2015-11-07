@@ -61,23 +61,25 @@ public class applies
 		}
 	}
 	
-	public static List<String> getLevel(String jafNum, Integer level){
-		List<String> signedJAFs = new ArrayList<String>();
+	public static int getLevel(String jafNum, String cid, String roll){
+		Integer signedJAFs = 0;
 		Connection connection = null;
+		int jafn = Integer.parseInt(jafNum);
 		try
 		{
 			connection = DbUtils.getConnection();
 			PreparedStatement pstmt = connection.prepareStatement(
-					"select rollnumber, status "
+					"select status "
 							+ "from application "
-							+ "where jafnumber=? and status=?");
-			pstmt.setString(1,jafNum);
-			pstmt.setInt(2, level);
+							+ "where jafnumber=? and rollnumber=? and companyid=?");
+			pstmt.setInt(1,jafn);
+			pstmt.setString(2, roll);
+			pstmt.setString(3, cid);
+			//System.out.println(pstmt.toString());
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				signedJAFs.add(rs.getString(1));
-				signedJAFs.add(rs.getString(2));
+				signedJAFs = rs.getInt(1);
 			}
 		}
 		catch (SQLException sqle)
