@@ -15,7 +15,7 @@
 	<div class='col s8 offset-s0' style="text-align:center">
 		<br><br>
 			<%
-			if (request.getAttribute("approved").toString().equals("0"))
+			if (request.getAttribute("approved").toString().equals("1"))
 			{
 				request.getRequestDispatcher("student.jsp").forward(request, response);
 				return;
@@ -27,7 +27,7 @@
 				<form action='StudentDetails?option=Store+PDF' method='post' enctype='multipart/form-data'>
 					<b>Upload Resume</b>
 					<input type='file' name='file'/>
-					<button class='btn waves-effect waves-light' type='submit' name='action'>Submit</button>
+					<input type='submit' />
 				</form>
 			<%
 			}

@@ -20,6 +20,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 
 import database.Student;
+import ui.HTMLHeaderUtils;
 
 /**
  * Servlet implementation class StudentDetails
@@ -80,22 +81,24 @@ public class StudentDetails extends HttpServlet
 		else if (option.equals("Resume Upload"))
 		{
 			System.out.println("Enter");
-			if (app.equals("0"))
+			if (app.equals("1"))
 			{
 				request.getRequestDispatcher("student.jsp").forward(request, response);
 				return;
 			}
 			PrintWriter out = response.getWriter();
-			out.print("<html><head><title>Insert title here</title></head>");
-			out.print(
-					"<center><form action='StudentDetails?option=Store+PDF' method='post' enctype='multipart/form-data'>"
-							+ "<b>Upload Resume</b>" + "<input type='file' name='file'/></center>"
-							+ "<center> <input type='submit' /></center></form></html>");
+			out.print("<!DOCTYPE html><html>" + HTMLHeaderUtils.getGenericHeader("Student Result") + "<body>");
+			out.print(HTMLHeaderUtils.getTopNavBar(request.getSession(false).getAttribute("entity").toString()));
+			out.print("<div class='row' style='height:100%'>" + HTMLHeaderUtils.getGenericSidebar(request.getSession(false).getAttribute("entity").toString(), request.getSession(false).getAttribute("name").toString())
+					+ "\n<div class='col s8 offset-s0' style='text-align:center'><br><br>\n"
+					+ "<form action='StudentDetails?option=Store+PDF' method='post' enctype='multipart/form-data'>"
+							+ "<b>Upload Resume</b>" + "<input type='file' name='file'/>"
+							+ "<input type='submit' /></form></body></html>");
 			return;
 		}
 		else if (option.equals("Store PDF"))
 		{
-			if (app.equals("0"))
+			if (app.equals("1"))
 			{
 				request.getRequestDispatcher("student.jsp").forward(request, response);
 				return;
@@ -156,7 +159,7 @@ public class StudentDetails extends HttpServlet
 				}
 			}
 			details += "</table>";
-			details += "<input type='submit' value='Update to database' /></form>";
+			details += "<button class='btn waves-effect waves-light' type='submit' name='action'>Update to Database</button></form>";
 			request.setAttribute("EditStudentDetails", details);
 		}
 		else if (option.equals("Update Student Details"))
