@@ -48,6 +48,13 @@ public class HTMLHeaderUtils
 						+ "<li><a href='http://iitb.ac.in/'>IITB Homepage</a></li>"
 						+ "<li><a href='http://placements.iitb.ac.in/trainingblog/'>Placement Blog</a></li>"
 					+ "</ul>"
+					+ "<br><br><br>"
+					+ "<h5>News</h5>"					
+					+ "<ul>"
+						+ "<li>Phase 2 Beginning Soon !</li>"
+						+ "<li>108 Students Placed</li>"
+						+"<li>40 Companies Registered</li>"
+					+ "</ul>"
 				+ "</center>"
 				+ "</div>";
 		return str;	
