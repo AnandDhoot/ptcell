@@ -4,83 +4,144 @@
 <%@ page import="java.text.*" %>
 <%@ page import="java.io.*" %>
 <%@ page import="database.*" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page import="ui.*" %>
+<!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
+<%=HTMLHeaderUtils.getGenericHeader("Company Result")%>
 <body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+<%=HTMLHeaderUtils.getTopNavBar(request.getSession(false).getAttribute("entity").toString())%>
+	<div class='row' style='height:100%'>
+		<%=HTMLHeaderUtils.getGenericSidebar(request.getSession(false).getAttribute("entity").toString(), request.getSession(false).getAttribute("name").toString())%>
+		<div class='col s9 offset-s0'>
+			<div class='col s11 offset-s1'>
+			<h3 style="text-align:center">
+				<%
+					out.print(request.getParameter("option"));
+				%>
+			</h3>
+			<p>
 
-	<%
-	out.print("<center><h3>");
-	out.print(request.getParameter("option"));
-	out.println("</h3><p>");
-	HttpSession ss = request.getSession(false);
-	String id = ss.getAttribute("id").toString();
-	String pass = ss.getAttribute("pass").toString();
-	if(!ss.getAttribute("entity").equals("Company"))
-	{
-		request.getRequestDispatcher("/Logout").forward(request,
-				response);
-		return;}
-	String option = request.getParameter("option");
-	if (option.equals("Create JAF"))
-	{
-		String details = "";
-		details += "<form action='company_result.jsp?option=Submit+New+JAF' method='post'>"
-				+ "<input type='datetime-local' name='endDate' value='2015-12-31T23:59' /> JAF End Date <br>"
-				+ "<input type='number' step='0.01' name='cpiCutoff' value='7.00' /> CPI Cutoff <br> "
-				+ "Select Eligible Departments <br>"
-				+ "<input type='checkbox' name='deptEligible' value='AE'> AE <br>"
-				+ "<input type='checkbox' name='deptEligible' value='CS'> CS <br>"
-				+ "<input type='checkbox' name='deptEligible' value='EE'> EE <br>"
-				+ "<input type='checkbox' name='deptEligible' value='ME'> ME <br>"
-				+ "<input type='checkbox' name='deptEligible' value='PH'> PH <br><br>"
-				+ "<input type='text' name='location' value='Mumbai' /> Location <br>"
-				+ "<input type='number' step='1000' name='salary' value='10000' /> Salary (INR/month) <br>"
-				+ "<input type='text' name='description' value='JAF Description' /> Describe JAF <br>"
-				+ "<input type='text' name='profile' value='Tech' /> Profile <br>"
-				+ "<input type='submit' value='Verify' />" + "</form>";
-		out.println(details);
-	}
-	else if(option.equals("JAFDetails")){
-	String companyID = id;
-	int JAFNumber = Integer.parseInt(request.getParameter("jafNum").toString());
-
-	String details = "<table>";
-	List<String> JAFDetails = JAF.getJAFDetails(companyID, JAFNumber);
-	for (int i = 0; i < JAFDetails.size() / 2; i++)
-		details += "<tr><td>" + JAFDetails.get(i * 2) + "</td><td>" + JAFDetails.get(i * 2 + 1) + "</td></tr>";
-	details += "</table>";
-	details += "<form action='company_result.jsp?option=SelectStu' method='post'>"
-			+ "<input type='text' name='jafNum' value='" + JAFNumber + "' hidden/>"
-			+ "<input type='submit' value='Select Students' />" + "</form>";
-	out.print(details);
-	}
-	else if(option.equals("SelectStu")){
-		// TODO
-		// Make links to view profile
-		//Make checkboxes to select them to update stage
-		//Make a text box to enter stage # students are selected for
-		//DONE - FXN that updates application table status
-		//TODO Advanced Ensure only unplaced students are selectable
+				<%
+				HttpSession ss = request.getSession(false);
+				String id = ss.getAttribute("id").toString();
+				String pass = ss.getAttribute("pass").toString();
+				if(!ss.getAttribute("entity").equals("Company"))
+				{
+					request.getRequestDispatcher("/Logout").forward(request,
+							response);
+					return;}
+				String option = request.getParameter("option");
+				if (option.equals("Create JAF"))
+				{
+				%>
+			<form class='col s12' action='company_result.jsp?option=Submit+New+JAF' method='post'>
 			
-				List<String> StuList = Coordi.getcStudents(id,request.getParameter("jafNum"));
-			int i = 0;
-			out.print("<form action = 'company_result.jsp?option=StudSelected' method = 'post'>");
-			if (StuList.size() > 0)
-			{	out.print("<script src='http://www.kryogenix.org/code/browser/sorttable/sorttable.js'></script>");
-				out.print("<table class='sortable'>");
-				out.print("<tr>");
-				out.print("<th>Roll No.</th>");
-				out.print("<th>Name</th>");
-				out.print("<th>Department</th>");
-				out.print("<th>CPI</th>");
-				out.print("<th>Profile</th>");
-				out.print("<th>See Resume</th>");
-				out.print("</tr>");
-			}
+		      <div class="row">
+		        <div class="input-field col s6">
+		          <input id="endDate" name='endDate' type="text" class="datepicker">
+		          <label for="endDate">JAF End Date</label>
+		        </div>
+		        <div class="input-field col s6">
+		          <input id="location" name='location' type="text" placeholder="Mumbai">
+		          <label for="location">Location of Work</label>
+		        </div>
+		      </div>
+		      
+		      <div class="row">
+		        <div class="input-field col s6">
+		          <input id="cpiCutoff" name='cpiCutoff' type="number" step='0.01' placeholder='7.00'>
+		          <label for="cpiCutoff">CPI Cutoff</label>
+		        </div>
+		        <div class="input-field col s6">
+		          <input id="salary" name='salary' type="number" step='1000' placeholder='10000'>
+		          <label for="salary">CPI Cutoff</label>
+		        </div>
+		      </div>
+		      
+		      <div class="row">
+		        <div class="input-field col s6">
+		          <input id="description" name='description' type="text" placeholder='Brief Description'>
+		          <label for="description">Description</label>
+		        </div>
+		        <div class="input-field col s6">
+		          <input id="profile" name='profile' type="text" placeholder='Tech'>
+		          <label for="profile">Profile</label>
+		        </div>
+		      </div>
+			  Eligible Departments
+		      <div class="row">
+				<div class="input-field col s1">
+			      <input type="checkbox" id="test1" name='deptEligible' value='AE' />
+			      <label for="test1">AE</label>
+			    </div>
+				<div class="input-field col s1">
+			      <input type="checkbox" id="test2" name='deptEligible' value='CS' />
+			      <label for="test2">CS</label>
+			    </div>
+				<div class="input-field col s1">
+			      <input type="checkbox" id="test3" name='deptEligible' value='EE' />
+			      <label for="test3">EE</label>
+			    </div>
+				<div class="input-field col s1">
+			      <input type="checkbox" id="test4" name='deptEligible' value='ME' />
+			      <label for="test4">ME</label>
+			    </div>
+				<div class="input-field col s1">
+			      <input type="checkbox" id="test5" name='deptEligible' value='PH' />
+			      <label for="test5">PH</label>
+			    </div>
+				<div class="input-field col s3 offset-s1">
+				 <button class="btn waves-effect waves-light" type="submit" name="action">Create
+				 	<i class="material-icons right">send</i>
+				  </button>
+				 </div>
+		    	</div>
+			</form>
+	<script>
+
+	  $('.datepicker').pickadate({
+	    selectMonths: true, // Creates a dropdown to control month
+	    selectYears: 15 // Creates a dropdown of 15 years to control year
+	  });
+	  
+	</script>
+		<%
+	}
+	else if(option.equals("JAF Details"))
+	{
+		String companyID = id;
+		int JAFNumber = Integer.parseInt(request.getParameter("jafNum").toString());
+	
+		String details = "<table class='centered responsive-table sortable'><thead><tr><th>Attribute</th><th>Value</th></tr></thead><tdata>";
+		List<String> JAFDetails = JAF.getJAFDetails(companyID, JAFNumber);
+		for (int i = 0; i < JAFDetails.size() / 2; i++)
+			details += "<tr><td>" + JAFDetails.get(i * 2) + "</td><td>" + JAFDetails.get(i * 2 + 1) + "</td></tr>";
+		details += "</tdata></table>";
+		details += "<form action='company_result.jsp?option=Select+Students' method='post' style='text-align:center'>"
+				+ "<input type='text' name='jafNum' value='" + JAFNumber + "' hidden/>"
+				+ "<button class='btn waves-effect waves-light' type='submit' name='action'>Select Students</button>" + "</form>";
+		out.print(details);
+	}
+	else if(option.equals("Select Students"))
+	{	
+		List<String> StuList = Coordi.getcStudents(id,request.getParameter("jafNum"));
+		int i = 0;
+		out.print("<form action = 'company_result.jsp?option=StudSelected' method = 'post'>");
+		if (StuList.size() > 0)
+		{
+			out.print("<table class='centered responsive-table sortable'><thead>");
+			out.print("<tr>");
+			out.print("<th>Roll No.</th>");
+			out.print("<th>Name</th>");
+			out.print("<th>Department</th>");
+			out.print("<th>CPI</th>");
+			out.print("<th>Profile</th>");
+			out.print("<th>See Resume</th>");
+			out.print("<th>Select</th>");
+			out.print("</tr></thead>");
+		}
 
 			while (i < StuList.size() / 4)
 			{
@@ -96,30 +157,47 @@
 					out.print("</td><td>");
 					out.print(StuList.get(i * 4 + 3));
 					out.print("</td><td>");
-					out.println("<form action='coordinator_result.jsp?option=StudDetails' method='post'>"
-							+ "<input type='text' name='rollno' value='" + StuList.get(i * 4) + "' hidden/>"
-							+ "<input type='submit' value='View Details' />" + "</form>");
-					out.print("</td><td>");
-					out.println("<form action='StudentResume' method='post'>"
-							+ "<input type='text' name='rollno' value='" + StuList.get(i * 4) + "' hidden/>"
-							+ "<input type='submit' value='View Resume' />" + "</form>");
-					out.print("</td><td>");
-					out.println("<input type='checkbox' name='deptEligible' value='" + StuList.get(i*4) + "'> " + 
-					"<input type='text' name='jafNum' value='" + request.getParameter("jafNum") + "' hidden/>");
+					%>
 					
+						<form action='coordinator_result.jsp?option=StudDetails' method='post'>
+								<input type='text' name='rollno' value='<%=StuList.get(i * 4) %>' hidden/>
+								<button class='btn waves-effect waves-light' type='submit' name='action'>View Details</button></form>
+					</td>
+					<td>
+						<form action='StudentResume' method='post'>
+								<input type='text' name='rollno' value='<%=StuList.get(i * 4) %>' hidden/>
+								<button class='btn waves-effect waves-light' type='submit' name='action'>View Resume</button></form>
+					</td>
+					<td>
+						<div class="input-field row s1">
+					      <input type="checkbox" name='deptEligible' id='<%=StuList.get(i*4) %>' value='<%=StuList.get(i*4) %>' />
+					      <label for='<%=StuList.get(i*4) %>'></label>
+					    </div>
+				    </td></tr>
+					<%
 					
-					out.print("</td></tr>");
 				}
 				i++;
 				
 			}
-			
-			out.print("<input type=\"submit\" value=\"Select\">");
-			out.println("<input type='number' name='stage' value='2' /> Describe JAF <br>");
-			out.print("</form>");
 
 			if (StuList.size() > 0)
 				out.print("</table>");
+			%>
+			<br>
+					<input type='text' name='jafNum' value='<%=request.getParameter("jafNum").toString()%>' hidden/>
+			
+			<div class="input-field col s12">
+				<div class="input-field col s6 offset-s2">
+				      <input type="number" name='stage' id="test5" value='2' />
+				      <label for="test5">JAF Stage</label>
+				</div>
+				<div class="input-field col s4">
+					<button class='btn waves-effect waves-light' type='submit' name='action'>Select</button>
+				</div>
+			</div>
+			</form>
+			<%
 			
 	}
 	else if(option.equals("StudSelected")){
@@ -145,14 +223,18 @@
 
 		if (StuList.size() > 0)
 		{
-			out.print("<table>");
-			out.print("<tr>");
-			out.print("<th>Name</th>");
-			out.print("<th>JAF No.</th>");
-			out.print("<th>Stage</th>");
-			out.print("<th>Company Name</th>");
-			out.print("<th>View Details & Select Students</th>");
-			out.print("</tr>");
+			%>
+			<table class='centered responsive-table sortable'>
+				<thead>
+				<tr>
+				<th>Name</th>
+				<th>JAF No.</th>
+				<th>Stage</th>
+				<th>Company Name</th>
+				<th>View Details & Select Students</th>
+				</tr>
+				</thead><tbody>
+			<%
 		}
 
 		while (i < StuList.size() / 5)
@@ -166,15 +248,15 @@
 			out.print("</td><td>");
 			out.print(StuList.get(i * 5 + 3));
 			out.print("</td><td>");
-			out.println("<form action='company_result.jsp?option=JAFDetails' method='post'>"
+			out.println("<form action='company_result.jsp?option=JAF+Details' method='post'>"
 					+ "<input type='text' name='jafNum' value='" + StuList.get(i * 5 + 1) + "' hidden/>"
-					+ "<input type='submit' value='View Details & Select Students' />" + "</form>");
+					+ "<button class='btn waves-effect waves-light' type='submit' name='action'>View Details & Select Students</button>" + "</form>");
 			out.print("</td></tr>");
 			i++;
 		}
 
 		if (StuList.size() > 0)
-			out.print("</table>");
+			out.print("</tbody></table>");
 	}
 	else if (option.equals("Submit New JAF"))
 	{
@@ -186,14 +268,17 @@
 		String profile = request.getParameter("profile");
 		String description = request.getParameter("description");
 		
-		if(LastDate == null || cpiCutoff == null || deptEligible == null || location == null || salary == null || profile == null)
+		System.out.println("-----" + LastDate + "-----");
+		
+		if(LastDate == null || cpiCutoff == null || deptEligible == null || location == null || salary == null || profile == null || description == null)
 			out.println("<br>Invalid input");
 		else
 		{
 			java.util.Date date = null;
 			try
 			{
-				date = new SimpleDateFormat("yyyy-mm-dd").parse(LastDate);
+				date = new SimpleDateFormat("dd MMMM, yyyy").parse(LastDate);
+				System.out.println(date);
 			}
 			catch (ParseException e)
 			{
@@ -210,7 +295,7 @@
 	{
 		out.print("Invalid Option");
 	}
-	out.println("</p></center>");
+	out.println("</p>");
 	%>
 
 </body>

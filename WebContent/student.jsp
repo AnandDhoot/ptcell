@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <%
-	out.print(HTMLHeaderUtils.getGenericHeader("Student Result"));
+	out.print(HTMLHeaderUtils.getGenericHeader("Student Landing Page"));
 %>
 <body>
 <%

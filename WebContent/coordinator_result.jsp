@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <%
-	out.print(HTMLHeaderUtils.getGenericHeader("Student Result"));
+	out.print(HTMLHeaderUtils.getGenericHeader("Coordinator Result"));
 %>
 <body>
 <%

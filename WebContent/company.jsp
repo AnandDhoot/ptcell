@@ -1,13 +1,47 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page import="ui.*" %>
+<!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
+<%
+	out.print(HTMLHeaderUtils.getGenericHeader("Company Landing Page"));
+%>
 <body>
-<a href="/ptcell/company_result.jsp?option=Create+JAF">Create a JAF</a>
-<a href="/ptcell/company_result.jsp?option=View+JAFs">View Open JAFs</a>
+<%
+	out.print(HTMLHeaderUtils.getTopNavBar(request.getSession(false).getAttribute("entity").toString()));
+%>
+<div class='row' style='height:100%'>
+	<%=HTMLHeaderUtils.getGenericSidebar(request.getSession(false).getAttribute("entity").toString(), request.getSession(false).getAttribute("name").toString())%>
+	<div class='col s8 offset-s0' style="text-align:center">
+		<br><br>
+			<div class="col s4 offset-s2 card blue darken-3">
+				<div class="card-content white-text">
+					<span class="card-title"><b>Add new JAF</b></span>
+					<p>
+						Create a JAF 
+					</p>
+				</div>
+				<div class="card-action">
+					<a href="/ptcell/company_result.jsp?option=Create+JAF" style="margin-right:0px">
+						<b>Create JAF</b>
+					</a>
+				</div>	
+			</div>
+			
+			<div class="col s4 offset-s2 card blue darken-3">
+				<div class="card-content white-text">
+					<span class="card-title"><b>View JAFs</b></span>
+					<p>
+						See previously opened JAFs
+					</p>
+				</div>
+				<div class="card-action">
+					<a href="/ptcell/company_result.jsp?option=View+JAFs" style="margin-right:0px">
+						<b>View Opened JAFs</b>
+					</a>
+				</div>	
+			</div>
+	</div>
+</div>
 </body>
 </html>
