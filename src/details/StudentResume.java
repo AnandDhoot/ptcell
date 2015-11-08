@@ -19,7 +19,7 @@ import database.Student;
  */
 @WebServlet("/StudentResume")
 public class StudentResume extends HttpServlet
-{ 
+{
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -38,43 +38,42 @@ public class StudentResume extends HttpServlet
 	{
 		HttpSession ss = ((HttpServletRequest) request).getSession(false);
 		String id = ss.getAttribute("id").toString();
-		if(!ss.getAttribute("entity").equals("Student"))
+		if (!ss.getAttribute("entity").equals("Student"))
 			id = request.getParameter("rollno");
-		
+
 		byte resume[] = Student.getPDF(id);
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(resume);
-        int fileLength = inputStream.available();
-         
-        System.out.println("fileLength = " + fileLength);
+		int fileLength = inputStream.available();
 
-        ServletContext context = getServletContext();
+		System.out.println("fileLength = " + fileLength);
 
-        String fileName = id + ".pdf";
-        // sets MIME type for the file download
-        String mimeType = context.getMimeType(fileName);
-        if (mimeType == null) {        
-            mimeType = "application/octet-stream";
-        }              
-         
-        // set content properties and header attributes for the response
-        response.setContentType(mimeType);
-        response.setContentLength(fileLength);
-        String headerKey = "Content-Disposition";
-        String headerValue = String.format("attachment; filename=\"%s\"", fileName);
-        response.setHeader(headerKey, headerValue);
+		ServletContext context = getServletContext();
 
-        // writes the file to the client
-        OutputStream outStream = response.getOutputStream();
-         
-        byte[] buffer = new byte[4096];
-        int bytesRead = -1;
-        
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            outStream.write(buffer, 0, bytesRead);
-        }
-         
-        inputStream.close();
-        outStream.close(); 
+		String fileName = id + ".pdf";
+		String mimeType = context.getMimeType(fileName);
+		if (mimeType == null)
+		{
+			mimeType = "application/octet-stream";
+		}
+
+		response.setContentLength(fileLength);
+		response.setContentType(mimeType);
+		String headerValue = String.format("attachment; filename=\"%s\"", fileName);
+		String headerKey = "Content-Disposition";
+		response.setHeader(headerKey, headerValue);
+
+		OutputStream outStream = response.getOutputStream();
+
+		int bytesRead = -1;
+		byte[] buffer = new byte[4096];
+
+		while ((bytesRead = inputStream.read(buffer)) != -1)
+		{
+			outStream.write(buffer, 0, bytesRead);
+		}
+
+		outStream.close();
+		inputStream.close();
 	}
 
 	/**
